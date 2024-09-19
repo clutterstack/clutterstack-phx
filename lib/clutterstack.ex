@@ -11,7 +11,7 @@ defmodule Clutterstack do
 
   # An app function to populate my content from markdown and other source files using my Nimble Publisher module:
 
-  def process() do
+  def build_pages() do
     entries = Cansite.Publish.all_entries()
 
     for entry <- entries do

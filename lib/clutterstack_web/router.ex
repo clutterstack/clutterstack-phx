@@ -22,6 +22,7 @@ defmodule ClutterstackWeb.Router do
     get "/posts", EntryController, :posts
     get "/particles", EntryController, :particles
     get "/:section/:page", EntryController, :show_path
+    get "/:section/:theme/:page", EntryController, :show_path
   end
 
   # Other scopes may use custom stacks.

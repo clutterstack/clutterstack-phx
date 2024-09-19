@@ -7,6 +7,7 @@ config :clutterstack, Clutterstack.Repo,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true
 
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -62,8 +63,8 @@ config :clutterstack, ClutterstackWeb.Endpoint,
 # Enable dev routes for dashboard and mailbox
 config :clutterstack, dev_routes: true
 
-# Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+# Do not include metadata in development logs
+config :logger, :console, format: "$time [$level] $message\n", level: :warning
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.

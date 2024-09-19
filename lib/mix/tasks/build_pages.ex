@@ -7,8 +7,6 @@ defmodule Mix.Tasks.BuildPages do
   require Logger
 
   alias Clutterstack.Repo
-  alias ClutterstackWeb.Telemetry
-
 
   def run(_args) do
 
@@ -22,7 +20,7 @@ defmodule Mix.Tasks.BuildPages do
       Repo.start_link()
 
       {micro, :ok} = :timer.tc(fn ->
-      Clutterstack.process()
+      Clutterstack.build_pages()
     end)
       ms = micro / 1000
 

@@ -10,7 +10,7 @@ defmodule ClutterstackWeb.EntryController do
   end
 
   def posts(conn, _params) do
-    post_list = Entries.list_by_kind("post") |> Enum.sort_by(&(&1.date), :desc) |> IO.inspect(label: "list by kind: ")
+    post_list = Entries.list_by_kind("post") |> Enum.sort_by(&(&1.date), :desc) # |> IO.inspect(label: "list by kind: ")
     render(conn, :entry_links, items: post_list, page_title: "Posts")
   end
 
@@ -19,12 +19,21 @@ defmodule ClutterstackWeb.EntryController do
     render(conn, :entry_links, items: particle_list, page_title: "Particles")
   end
 
+  def show_path(conn, %{"section" => section, "theme" => theme, "page" => page}) do
+    IO.inspect(section, label: "section in PostsController.show_path")
+    IO.inspect(theme, label: "theme in PostsController.show_path")
+    path = Path.join([section, theme, page])
+    page = Entries.entry_by_path!(path)
+    render(conn, :render, page: page)
+  end
+
   def show_path(conn, %{"section" => section, "page" => page}) do
     IO.inspect(section, label: "section in PostsController.show_path")
     path = Path.join(section, page)
     page = Entries.entry_by_path!(path)
     render(conn, :render, page: page)
   end
+
 
   ##### Generated actions for generated CRUD resources #####
 
