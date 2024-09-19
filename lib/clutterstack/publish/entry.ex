@@ -4,7 +4,8 @@ defmodule Clutterstack.Publish.Entry do
   defstruct [:title, :path, :section, :date, :kind, :body, :meta]
 
   def build(filename, attrs, body) do
-    # IO.inspect(attrs, label: "attrs passed to build() in Clutterstack.Publish.Entry")
+    IO.inspect(filename, label: "filename passed to build() in Clutterstack.Publish.Entry")
+    IO.inspect(attrs, label: "attrs passed to build() in Clutterstack.Publish.Entry")
     path = Path.rootname(filename)
     # IO.puts("path: "<> path)
 

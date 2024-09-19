@@ -86,7 +86,18 @@ defmodule Clutterstack.Entries do
     |> Map.update!(:meta, &Jason.decode!/1)
   end
 
+  def upsert_entry!(attrs \\ %{}) do
+    # IO.inspect(attrs, label: "trying to upsert! attrs:")
+    %Entry{}
+    |> Entry.changeset(attrs)
+    # |> IO.inspect()
+    |> Repo.insert!(on_conflict: :replace_all)
+  end
+
+
+  #######################################################
   ########### Stock generated resource functions ########
+  #######################################################
 
   @doc """
   Returns the list of entries.

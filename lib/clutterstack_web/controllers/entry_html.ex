@@ -2,6 +2,8 @@ defmodule ClutterstackWeb.EntryHTML do
   use ClutterstackWeb, :html
 
   embed_templates "entry_html/*"
+  embed_templates "entry_generated/*"
+
 
   # Not sure where the following came from. Commenting out.
   # @doc """

@@ -19,5 +19,6 @@ defmodule Clutterstack.Entries.Entry do
     entry
     |> cast(attrs, [:title, :path, :section, :date, :kind, :body, :meta])
     |> validate_required([:title, :path, :section, :date, :kind, :body, :meta])
+    |> unique_constraint([:path])
   end
 end

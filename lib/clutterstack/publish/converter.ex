@@ -7,10 +7,10 @@ defmodule Clutterstack.Publish.Converter do
   # Copy some convert functions from Nimble Publisher and add a new one
   # https://github.com/dashbitco/nimble_publisher/blob/master/lib/nimble_publisher.ex
 
-  def convert(extname, body, _attrs, opts) when extname in [".md"] do
+  def convert(filepath, body, _attrs, opts) do
+    if Path.extname(filepath) in [".md", ".markdown"] do
     Logger.info("Converting Markdown file")
-    # IO.puts("THIS FILE HAS .eex EXTENSION")
-    # IO.inspect(extname, label: "extname is")
+    # IO.inspect(Path.extname, label: "extname is")
     earmark_opts = Keyword.get(opts, :earmark_options, %Earmark.Options{})
     body_list = splitter(body) |> IO.inspect(label: "splitter(body)")
     body_out = case body_list do
@@ -26,12 +26,10 @@ defmodule Clutterstack.Publish.Converter do
       # [] -> html
       # [_ | _] -> highlight(html)
     # end
-  end
-
-  # other files we won't touch
-  def convert(_extname, body, _attrs, _opts) do
-    Logger.info("Not a .md file. Passing through without converting.")
-    body
+    else # other files we won't change
+      Logger.info("Not a markdown file; passing body through unchanged")
+      body
+    end
   end
 
   def splitter(body) do
