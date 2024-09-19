@@ -1,0 +1,29 @@
+<.header>
+  Listing Entries
+  <:actions>
+    <.link href={~p"/entries/new"}>
+      <.button>New Entry</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="entries" rows={@entries} row_click={&JS.navigate(~p"/entries/#{&1}")}>
+  <:col :let={entry} label="Title"><%= entry.title %></:col>
+  <:col :let={entry} label="Path"><%= entry.path %></:col>
+  <:col :let={entry} label="Section"><%= entry.section %></:col>
+  <:col :let={entry} label="Date"><%= entry.date %></:col>
+  <:col :let={entry} label="Kind"><%= entry.kind %></:col>
+  <:col :let={entry} label="Body"><%= entry.body %></:col>
+  <:col :let={entry} label="Meta"><%= entry.meta %></:col>
+  <:action :let={entry}>
+    <div class="sr-only">
+      <.link navigate={~p"/entries/#{entry}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/entries/#{entry}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={entry}>
+    <.link href={~p"/entries/#{entry}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

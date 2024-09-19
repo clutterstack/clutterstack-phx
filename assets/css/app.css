@@ -3,3 +3,6 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+/* .can-content {
+    @apply grid grid-cols-[auto_200px] gap-x-8;
+} */

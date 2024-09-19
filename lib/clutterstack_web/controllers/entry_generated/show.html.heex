@@ -1,0 +1,21 @@
+<.header>
+  Entry <%= @entry.id %>
+  <:subtitle>This is a entry record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/entries/#{@entry}/edit"}>
+      <.button>Edit entry</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @entry.title %></:item>
+  <:item title="Path"><%= @entry.path %></:item>
+  <:item title="Section"><%= @entry.section %></:item>
+  <:item title="Date"><%= @entry.date %></:item>
+  <:item title="Kind"><%= @entry.kind %></:item>
+  <:item title="Body"><%= @entry.body %></:item>
+  <:item title="Meta"><%= @entry.meta %></:item>
+</.list>
+
+<.back navigate={~p"/entries"}>Back to entries</.back>

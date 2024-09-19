@@ -87,6 +87,9 @@ defmodule ClutterstackWeb do
       import ClutterstackWeb.CoreComponents
       import ClutterstackWeb.Gettext
 
+      # Custom Clutterstack components
+      import ClutterstackWeb.ClutterstackComponents
+
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 

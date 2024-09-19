@@ -1,0 +1,16 @@
+<.header>
+  <:subtitle>
+    <%= if @page.date do %>
+      <%= @page.date %>
+    <% end %>
+     - <%= @page.kind %>
+  </:subtitle>
+   <%= @page.title %>
+</.header>
+
+<section class="can-content">
+    <%= raw @page.body %>
+</section>
+
+
+<.back navigate={~p"/posts"}>Back to posts index</.back>

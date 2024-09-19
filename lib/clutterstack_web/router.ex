@@ -17,7 +17,11 @@ defmodule ClutterstackWeb.Router do
   scope "/", ClutterstackWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", EntryController, :home
+    resources "/entries", EntryController
+    get "/posts", EntryController, :posts
+    get "/particles", EntryController, :particles
+    get "/:section/:page", EntryController, :show_path
   end
 
   # Other scopes may use custom stacks.

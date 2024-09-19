@@ -62,9 +62,6 @@ defmodule Clutterstack.Publish.Converter do
   # followed by Earmark.transform/2, but
   # on the other hand, these helper processors are pretty readable.
 
-  @doc """
-  "Important" notice block
-  """
   def convert_custom("important", contents, earmark_opts) do
     processed_contents = Earmark.as_html!("**Important:** " <> contents, earmark_opts)
     IO.puts("processing helper important")
@@ -77,12 +74,9 @@ defmodule Clutterstack.Publish.Converter do
     """
   end
 
-  @doc """
-  Sidenote
-  """
   def convert_custom("sidenote", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper important")
+    IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
