@@ -84,6 +84,54 @@ defmodule Clutterstack.Publish.Converter do
     """
   end
 
+  def convert_custom("sidenote 1", contents, earmark_opts) do
+    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    IO.puts("processing helper sidenote")
+    # IO.inspect(contents, label: "Contents passed to Earmark")
+    # IO.inspect(processed_contents, label: "Earmark processed contents")
+    """
+    <aside class="sidenote onerow">
+      #{processed_contents}
+    </aside>
+    """
+  end
+
+  def convert_custom("sidenote 2", contents, earmark_opts) do
+    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    IO.puts("processing helper sidenote")
+    # IO.inspect(contents, label: "Contents passed to Earmark")
+    # IO.inspect(processed_contents, label: "Earmark processed contents")
+    """
+    <aside class="sidenote tworows">
+      #{processed_contents}
+    </aside>
+    """
+  end
+
+  def convert_custom("sidenote 3", contents, earmark_opts) do
+    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    IO.puts("processing helper sidenote")
+    # IO.inspect(contents, label: "Contents passed to Earmark")
+    # IO.inspect(processed_contents, label: "Earmark processed contents")
+    """
+    <aside class="sidenote threerows">
+      #{processed_contents}
+    </aside>
+    """
+  end
+
+  def convert_custom("sidenote 4", contents, earmark_opts) do
+    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    IO.puts("processing helper sidenote")
+    # IO.inspect(contents, label: "Contents passed to Earmark")
+    # IO.inspect(processed_contents, label: "Earmark processed contents")
+    """
+    <aside class="sidenote fourrows">
+      #{processed_contents}
+    </aside>
+    """
+  end
+
   def convert_custom("readmore", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
     IO.puts("processing helper readmore")
