@@ -1,16 +1,20 @@
-<.header>
+<section class="mb-8 border-b border-zinc-200">
+  <h2 class="mb-2 mt-4 text-lg md:text-xl font-medium mb-4">Latest entries</h2>
+  <.link_list items={@items} markparticles={true}/>
+</section>
+
+<.subheader>
   <:subtitle>
     <%= if @page.date do %>
       <%= @page.date %>
     <% end %>
-     - <%= @page.kind %>
+     in <%= String.capitalize(@page.kind) <> "s" %>
   </:subtitle>
    <%= @page.title %>
-</.header>
+</.subheader>
 
 <section class="can-content">
     <%= raw @page.body %>
 </section>
 
-
-<.link navigate={~p"/posts"}>Posts index</.link>
+<.back navigate={~p"/posts"}>Posts index</.back>

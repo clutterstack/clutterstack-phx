@@ -5,8 +5,9 @@ defmodule ClutterstackWeb.EntryController do
   alias Clutterstack.Entries.Entry
 
   def home(conn, _params) do
+    latest_all = Entries.latest_entries(5) |> Enum.sort_by(&(&1.date), :desc)
     page = Entries.latest_posts(1) |> List.first()
-    render(conn, :home, page: page, page_title: "Home")
+    render(conn, :home, page: page, page_title: "Home", items: latest_all)
   end
 
   def posts(conn, _params) do
@@ -19,19 +20,18 @@ defmodule ClutterstackWeb.EntryController do
     render(conn, :entry_links, items: particle_list, page_title: "Particles")
   end
 
-  def show_path(conn, %{"section" => section, "theme" => theme, "page" => page}) do
-    IO.inspect(section, label: "section in PostsController.show_path")
+  def show_particle(conn, %{"theme" => theme, "page" => page}) do
+    # IO.inspect(section, label: "section in PostsController.show_path")
     IO.inspect(theme, label: "theme in PostsController.show_path")
-    path = Path.join([section, theme, page])
+    path = Path.join(["particles", theme, page])
     page = Entries.entry_by_path!(path)
-    render(conn, :render, page: page)
+    render(conn, :particle, page: page)
   end
 
-  def show_path(conn, %{"section" => section, "page" => page}) do
-    IO.inspect(section, label: "section in PostsController.show_path")
-    path = Path.join(section, page)
+  def show_post(conn, %{"page" => page}) do
+    path = Path.join("posts", page)
     page = Entries.entry_by_path!(path)
-    render(conn, :render, page: page)
+    render(conn, :post, page: page)
   end
 
 

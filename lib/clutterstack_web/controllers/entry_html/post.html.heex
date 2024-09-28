@@ -3,7 +3,7 @@
     <%= if @page.date do %>
       <%= @page.date %>
     <% end %>
-     - <%= @page.kind %>
+     in <.link navigate={~p"/posts"}>Posts</.link>
   </:subtitle>
    <%= @page.title %>
 </.header>
@@ -13,4 +13,4 @@
 </section>
 
 
-<.back navigate={~p"/posts"}>Back to posts index</.back>
+<.back navigate={~p"/posts"}>Posts index</.back>

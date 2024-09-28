@@ -1,0 +1,16 @@
+<.header>
+  <:subtitle>
+    <%= if @page.date do %>
+      <%= @page.date %>
+    <% end %>
+     in <.link navigate={~p"/particles"}>Particles</.link>
+  </:subtitle>
+   <%= @page.title %>
+</.header>
+
+<section class="can-content">
+    <%= raw @page.body %>
+</section>
+
+
+<.back navigate={~p"/particles"}>Particles index</.back>

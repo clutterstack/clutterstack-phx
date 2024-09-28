@@ -72,6 +72,18 @@ defmodule Clutterstack.Publish.Converter do
     """
   end
 
+  def convert_custom("aside", contents, earmark_opts) do
+    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    IO.puts("processing helper aside")
+    # IO.inspect(contents, label: "Contents passed to Earmark")
+    # IO.inspect(processed_contents, label: "Earmark processed contents")
+    """
+    <aside>
+      #{processed_contents}
+    </aside>
+    """
+  end
+
   def convert_custom("sidenote", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
     IO.puts("processing helper sidenote")
