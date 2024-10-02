@@ -71,7 +71,7 @@ pre {
   }
 
 a {
-    @apply font-medium text-sky-700 hover:underline decoration-dashed;
+    @apply text-sky-700 hover:underline decoration-dashed;
 }
 
 .can-content ul {

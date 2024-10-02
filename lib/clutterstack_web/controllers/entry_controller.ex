@@ -23,16 +23,16 @@ defmodule ClutterstackWeb.EntryController do
 
   def show_particle(conn, %{"theme" => theme, "page" => page}) do
     # IO.inspect(section, label: "section in PostsController.show_path")
-    IO.inspect(theme, label: "theme in PostsController.show_particle")
+    # IO.inspect(theme, label: "theme in PostsController.show_particle")
     path = Path.join(["particles", theme, page])
     page = Entries.entry_by_path!(path)
-    render(conn, :particle, page: page)
+    render(conn, :particle, page: page, page_title: page.title)
   end
 
   def show_post(conn, %{"page" => page}) do
     path = Path.join("posts", page)
     page = Entries.entry_by_path!(path)
-    render(conn, :post, page: page)
+    render(conn, :post, page: page, page_title: page.title)
   end
 
   ##### Generated actions for generated CRUD resources #####
