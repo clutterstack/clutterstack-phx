@@ -19,8 +19,24 @@ defmodule Clutterstack.Entries do
 
   def list_by_kind(kind) do
     query = from(p in Entry,
-              where: p.kind == ^kind,
-              select: %{path: p.path, title: p.title, kind: p.kind, date: p.date})
+      where: p.kind == ^kind,
+      select: %{path: p.path, title: p.title, kind: p.kind, section: p.section, date: p.date})
+    Repo.all(query)
+  end
+
+  def list_sections(kind) do
+    query = from(p in Entry,
+      where: p.kind == ^kind,
+      distinct: true,
+      select: p.section)
+      Repo.all(query)
+  end
+
+  def list_by_section(kind, section) do
+    query = from(p in Entry,
+      where: p.kind == ^kind,
+      where: p.section == ^section,
+      select: %{path: p.path, title: p.title, kind: p.kind, date: p.date})
     Repo.all(query)
   end
 

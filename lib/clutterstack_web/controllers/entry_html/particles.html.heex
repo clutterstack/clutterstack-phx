@@ -1,0 +1,14 @@
+<.header>
+  <%= @page_title %>
+</.header>
+
+
+
+<ul>
+  <%= for section <- @sections do %>
+    <li><h2><%= section %></h2></li>
+      <ul class="mb-6">
+        <.link_list items={section_entries(section, @all_items)} />
+      </ul>
+  <% end %>
+</ul>

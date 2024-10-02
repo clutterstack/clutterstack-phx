@@ -16,8 +16,9 @@ defmodule ClutterstackWeb.EntryController do
   end
 
   def particles(conn, _params) do
+    section_list = Entries.list_sections("particle")
     particle_list = Entries.list_by_kind("particle") |> Enum.sort_by(&(&1.date), :desc)
-    render(conn, :entry_links, items: particle_list, page_title: "Particles")
+    render(conn, :particles, sections: section_list, all_items: particle_list, page_title: "Particles")
   end
 
   def show_particle(conn, %{"theme" => theme, "page" => page}) do
@@ -33,7 +34,6 @@ defmodule ClutterstackWeb.EntryController do
     page = Entries.entry_by_path!(path)
     render(conn, :post, page: page)
   end
-
 
   ##### Generated actions for generated CRUD resources #####
 
