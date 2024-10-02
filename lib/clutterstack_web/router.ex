@@ -18,12 +18,14 @@ defmodule ClutterstackWeb.Router do
     pipe_through :browser
 
     get "/", EntryController, :home
-    resources "/entries", EntryController
+    if Application.compile_env(:clutterstack, :dev_routes) do
+      resources "/entries", EntryController
+    end
     get "/posts", EntryController, :posts
     get "/particles", EntryController, :particles
     get "/posts/:page", EntryController, :show_post
     get "/particles/:theme/:page", EntryController, :show_particle
-    get "/:section/:theme/:page", EntryController, :show_path
+    # get "/:section/:theme/:page", EntryController, :show_path
   end
 
   # Other scopes may use custom stacks.

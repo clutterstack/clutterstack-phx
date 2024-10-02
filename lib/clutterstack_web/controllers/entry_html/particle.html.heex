@@ -1,4 +1,7 @@
 <.header>
+  <:header_badge>
+    <.badge text={@page.section} />
+  </:header_badge>
   <:subtitle>
     <%= if @page.date do %>
       <%= @page.date %>

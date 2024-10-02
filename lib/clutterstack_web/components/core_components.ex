@@ -423,12 +423,16 @@ defmodule ClutterstackWeb.CoreComponents do
 
   slot :inner_block, required: true
   slot :subtitle
+  slot :header_badge
   slot :actions
 
   def header(assigns) do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
       <div>
+        <div :if={@header_badge != []} >
+          <%= render_slot(@header_badge) %>
+        </div>
         <h1>
           <%= render_slot(@inner_block) %>
         </h1>

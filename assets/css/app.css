@@ -95,3 +95,7 @@ ul li p, ol li p {
     font-size: 1em; /* Adjust the size of the marker if needed */
     vertical-align: top; /* Aligns the marker with the top of the first line */
   }
+
+hr {
+    @apply mb-6;
+}

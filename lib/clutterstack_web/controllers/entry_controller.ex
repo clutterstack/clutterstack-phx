@@ -22,7 +22,7 @@ defmodule ClutterstackWeb.EntryController do
 
   def show_particle(conn, %{"theme" => theme, "page" => page}) do
     # IO.inspect(section, label: "section in PostsController.show_path")
-    IO.inspect(theme, label: "theme in PostsController.show_path")
+    IO.inspect(theme, label: "theme in PostsController.show_particle")
     path = Path.join(["particles", theme, page])
     page = Entries.entry_by_path!(path)
     render(conn, :particle, page: page)

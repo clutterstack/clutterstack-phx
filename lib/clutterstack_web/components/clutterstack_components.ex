@@ -36,6 +36,19 @@ defmodule ClutterstackWeb.ClutterstackComponents do
   end
 
   @doc """
+  Renders a badge-stlye span with text inside
+  """
+
+  attr :text, :string, default: nil
+  def badge(assigns) do
+    ~H"""
+    <span class="bg-zinc-200 rounded-lg text-sm px-2">
+      <%= @text %>
+    </span>
+    """
+  end
+
+  @doc """
   Renders a header with title.
   """
   attr :class, :string, default: nil
