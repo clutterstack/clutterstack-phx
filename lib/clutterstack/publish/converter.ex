@@ -35,7 +35,7 @@ defmodule Clutterstack.Publish.Converter do
   def splitter(body) do
     helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/(\1) -->/
     body_list = String.split(body, helper_comment_pattern, include_captures: true)
-    |> IO.inspect(label: "Body split by custom comments")
+    # |> IO.inspect(label: "Body split by custom comments")
     body_list
   end
 
@@ -43,7 +43,7 @@ defmodule Clutterstack.Publish.Converter do
     helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/(\1) -->/
     case Regex.scan(helper_comment_pattern, inputstr) do
       [[_whole_match, helper, contents, _helper_again]] ->
-        IO.puts("found a helper pattern")
+        # IO.puts("found a helper pattern")
         # IO.puts("helper: #{String.trim(helper)}")
         # IO.puts("contents: #{String.trim(contents)}")
         convert_custom(helper, contents, earmark_opts)

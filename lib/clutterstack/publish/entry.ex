@@ -7,13 +7,15 @@ defmodule Clutterstack.Publish.Entry do
     IO.inspect(filename, label: "filename passed to build() in Clutterstack.Publish.Entry")
     IO.inspect(attrs, label: "attrs passed to build() in Clutterstack.Publish.Entry")
     path = Path.rootname(filename)
-    # IO.puts("path: "<> path)
+    IO.puts("path: "<> path)
 
-    section = path |> Path.split() |> Enum.at(-2)
-    # IO.puts(section)
+
     # Get rid of any .md extension
     path = path |> Path.rootname() |> Path.split() |> Enum.drop(1) |> Path.join()
-    # IO.inspect(label: "joined truncate path")
+    |> IO.inspect(label: "joined truncate path")
+
+    section = path |> Path.split() |> Enum.drop(-1) |> IO.inspect(label: "sectiondrop") |> Enum.at(1) || ""
+    IO.inspect(section, label: "section in Publish.Entry")
     title = attrs["title"]
     kind = Map.get(attrs, "kind")
     date = Map.get(attrs, "date")
