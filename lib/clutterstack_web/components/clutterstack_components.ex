@@ -6,10 +6,34 @@ defmodule ClutterstackWeb.ClutterstackComponents do
   use ClutterstackWeb, :verified_routes
 
   @doc """
-
   Provides a list of title links next to entry dates.
   Takes a list of "skinny" entries.
+  """
 
+  attr :items, :list
+  def particle_list(assigns) do
+    ~H"""
+    <section class="mb-4">
+      <ul>
+        <%= for item <- @items do %>
+          <li class="mt-2 mb-2 leading-6">
+            <span class="text-sm text-zinc-600"><%= item.date %></span>
+            <span class="text-base text-navy-900">
+              <.link href={"/" <> URI.decode(item.path)} >
+              <%= item.title %></.link>
+            </span>
+            <span :if={item.kind == "particle"}><.badge text="particle"/></span>
+            <span :if={item.section != nil}><.badge text={item.section}/></span>
+            </li>
+        <% end %>
+      </ul>
+    </section>
+    """
+  end
+
+  @doc """
+  Provides a list of title links next to entry dates.
+  Takes a list of "skinny" entries.
   """
 
   attr :markparticles, :boolean, default: false
@@ -31,6 +55,19 @@ defmodule ClutterstackWeb.ClutterstackComponents do
           </li>
         <% end %>
       </ul>
+    </section>
+    """
+  end
+
+  @doc """
+  Renders the page body -- needs to be passed a page though.
+  Not tested. Good for particle transclusion?
+  """
+  attr :page, :map, required: true
+  def transclude(assigns) do
+    ~H"""
+    <section class="can-content">
+      <%= Phoenix.HTML.raw @page.body %>
     </section>
     """
   end
