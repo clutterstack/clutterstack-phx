@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.BuildPages do
+defmodule Mix.Tasks.BuildSitemap do
   use Mix.Task
   @impl Mix.Task
 
@@ -19,16 +19,10 @@ defmodule Mix.Tasks.BuildPages do
 
       Repo.start_link()
 
-      {micro, :ok} = :timer.tc(fn ->
-      Clutterstack.build_pages()
-    end)
-
       {micro2, {:ok, :ok}} = :timer.tc(fn ->
         Clutterstack.Sitemapper.generate_sitemap()
       end)
-      ms = micro / 1000
       ms2 = micro2 / 1000
-      Logger.info("built pages in #{ms}ms")
       Logger.info("generated sitemap in #{ms2}ms")
     else
       Logger.error("Failed to start Ecto.")

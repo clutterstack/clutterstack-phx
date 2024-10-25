@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+  <loc>http://clutterstack.com/particles/flydotio/app-not-listening</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://clutterstack.com/particles/flydotio/update-app-no-build</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://clutterstack.com/particles/phoenix/livebook-scraps</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://clutterstack.com/particles/phoenix/phoenix-tailwind-css</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://clutterstack.com/posts/2024-09-27-applenotes</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://clutterstack.com/posts/2024-09-27-first-post</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://clutterstack.com/posts/2024-10-24-llm-observations</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://clutterstack.com/particles/</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://clutterstack.com/posts/</loc>
+  <changefreq>weekly</changefreq>
+</url>
+</urlset>
