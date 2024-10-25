@@ -31,7 +31,7 @@ defmodule Clutterstack.Sitemapper do
       |> Repo.stream()
       |> Stream.map(fn %Clutterstack.Entries.Entry{path: path} ->
         %Sitemapper.URL{
-          loc: "http://clutterstack.com/#{path}",
+          loc: "https://clutterstack.com/#{path}",
           changefreq: :weekly
         }
       end)
