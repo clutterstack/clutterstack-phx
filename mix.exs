@@ -61,6 +61,7 @@ defmodule Clutterstack.MixProject do
       {:makeup_elixir, ">= 0.0.0"},
       {:makeup_erlang, ">= 0.0.0"},
       {:yaml_elixir, "~> 2.11"},
+      {:sitemapper, "~> 0.8"},
     ]
   end
 

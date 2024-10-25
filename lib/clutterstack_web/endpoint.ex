@@ -25,6 +25,11 @@ defmodule ClutterstackWeb.Endpoint do
     gzip: false,
     only: ClutterstackWeb.static_paths()
 
+  plug Plug.Static,
+    at: "/",
+    gzip: false,
+    from: {:clutterstack, "priv/static/sitemaps/"}
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do

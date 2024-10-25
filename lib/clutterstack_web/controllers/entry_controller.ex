@@ -4,20 +4,6 @@ defmodule ClutterstackWeb.EntryController do
   alias Clutterstack.Entries
   alias Clutterstack.Entries.Entry
 
-# I use a subdir in priv/static for sitemaps since the
-# sitemapper lib likes to generate both an index and the map even if
-# there's only one map file. Serve the index at the expected place
-# for discoverability and Plug.Static will serve the rest from the
-# link inside the index.
-# Can remove this and the route if I add a robots.txt pointing to
-# the sitemaps/ path
-  def sitemap(conn, _opts) do
-    conn
-    |> put_resp_content_type("text/plain")
-    # |> send_resp(200, File.read!("/priv/static/sitemap.xml"))
-    |> Plug.Conn.send_file(200, "priv/static/sitemaps/sitemap.xml")
-  end
-
   def home(conn, _params) do
     latest_all = Entries.latest_entries(5) |> Enum.sort_by(&(&1.date), :desc)
     page = Entries.latest_posts(1) |> List.first()
