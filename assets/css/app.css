@@ -5,7 +5,7 @@
 /* This file is for your main application CSS */
 
 .can-content {
-    @apply md:grid grid-cols-[auto_200px] gap-x-8;
+    @apply md:grid grid-cols-[auto_200px] gap-x-8 auto-rows-min;
 }
 
 .can-content > * {
@@ -17,9 +17,9 @@
 }
 
 .can-content .sidenote {
-    @apply border-t border-t-rose-500 text-sm;
+    @apply mx-6 pt-2 md:mx-0 border-t border-t-rose-500 text-sm;
     grid-column: 2/3;
-    grid-row: auto / span 2;
+    grid-row: auto / span 6;
 }
 
 .can-content .sidenote.onerow {
@@ -36,6 +36,18 @@
 
 .can-content .sidenote.fourrows {
     grid-row: auto / span 4;
+}
+
+.can-content .sidenote.fiverows {
+    grid-row: auto / span 5;
+}
+
+.can-content .sidenote.sixrows {
+    grid-row: auto / span 6;
+}
+
+.can-content .sidenote.sevenrows {
+    grid-row: auto / span 7;
 }
 
 h1 {
@@ -67,7 +79,7 @@ code.output {
 }
 
 code.inline {
-    @apply text-rose-800;
+    @apply text-rose-800 text-[0.95em];
 }
 
 pre {
