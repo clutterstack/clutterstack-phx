@@ -11,7 +11,7 @@ defmodule Clutterstack.Sitemapper do
         path: "priv/static/sitemaps/"
         ],
       gzip: false,
-      sitemap_url: "https://clutterstack.com/sitemaps/" # individual sitemap files will be served with Plug.Static from the sitemaps dir
+      sitemap_url: "https://clutterstack.com/"
     ]
 
     static_routes = [
@@ -26,7 +26,6 @@ defmodule Clutterstack.Sitemapper do
     ]
 
     Repo.transaction(fn ->
-      # with {:ok, user} <- create_user(user_params)
       Clutterstack.Entries.Entry
       |> Repo.stream()
       |> Stream.map(fn %Clutterstack.Entries.Entry{path: path} ->

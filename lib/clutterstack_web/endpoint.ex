@@ -22,13 +22,13 @@ defmodule ClutterstackWeb.Endpoint do
   plug Plug.Static,
     at: "/",
     from: :clutterstack,
-    gzip: false,
+    gzip: true,
     only: ClutterstackWeb.static_paths()
 
   plug Plug.Static,
     at: "/",
-    gzip: false,
-    from: {:clutterstack, "priv/static/sitemaps/"}
+    from: {:clutterstack, "priv/static/sitemaps/"},
+    gzip: true
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
