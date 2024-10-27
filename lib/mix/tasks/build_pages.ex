@@ -9,7 +9,7 @@ defmodule Mix.Tasks.BuildPages do
   alias Clutterstack.Repo
 
   def run(_args) do
-
+    Logger.configure(level: :info)
     things_started? = [:telemetry, :ecto]
     |> Enum.map(&Application.ensure_all_started/1)
     |> Enum.all?(&(elem(&1, 0) == :ok))
