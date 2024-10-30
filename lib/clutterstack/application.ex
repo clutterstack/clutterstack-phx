@@ -14,6 +14,7 @@ defmodule Clutterstack.Application do
         repos: Application.fetch_env!(:clutterstack, :ecto_repos),
         skip: skip_migrations?()},
       # {DNSCluster, query: Application.get_env(:clutterstack, :dns_cluster_query) || :ignore},
+      Clutterstack.RedirectTable,
       {Phoenix.PubSub, name: Clutterstack.PubSub},
       # Start a worker by calling: Clutterstack.Worker.start_link(arg)
       # {Clutterstack.Worker, arg},

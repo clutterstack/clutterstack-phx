@@ -9,10 +9,10 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert(filepath, body, _attrs, opts) do
     if Path.extname(filepath) in [".md", ".markdown"] do
-    Logger.info("Converting Markdown file")
+    Logger.debug("Converting Markdown file")
     # IO.inspect(Path.extname, label: "extname is")
     earmark_opts = Keyword.get(opts, :earmark_options, %Earmark.Options{})
-    body_list = splitter(body) |> IO.inspect(label: "splitter(body)")
+    body_list = splitter(body) # |> IO.inspect(label: "splitter(body)")
     body_out = case body_list do
       [head|tail] -> Enum.map([head|tail], fn item -> convert_item(item, earmark_opts) end)
         # |> IO.inspect(label: "output map?????????")
@@ -27,7 +27,7 @@ defmodule Clutterstack.Publish.Converter do
       # [_ | _] -> highlight(html)
     # end
     else # other files we won't change
-      Logger.info("Not a markdown file; passing body through unchanged")
+      Logger.info("#{filepath}: Not a markdown file; passing body through unchanged")
       body
     end
   end
@@ -48,8 +48,8 @@ defmodule Clutterstack.Publish.Converter do
         # IO.puts("contents: #{String.trim(contents)}")
         convert_custom(helper, contents, earmark_opts)
       _ ->
-        IO.inspect(Regex.scan(helper_comment_pattern, inputstr), label: "regex scan result")
-        IO.puts("no helper in this item; processing md to html")
+        # IO.inspect(Regex.scan(helper_comment_pattern, inputstr), label: "regex scan result")
+        # IO.puts("no helper in this item; processing md to html")
         Earmark.as_html!(inputstr, earmark_opts)
      end
   end
@@ -62,7 +62,7 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert_custom("callout", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing callout helper ")
+    # IO.puts("processing callout helper ")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -73,7 +73,7 @@ defmodule Clutterstack.Publish.Converter do
   end
   def convert_custom("important", contents, earmark_opts) do
     processed_contents = Earmark.as_html!("**Important:** " <> contents, earmark_opts)
-    IO.puts("processing helper important")
+    # IO.puts("processing helper important")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -97,7 +97,7 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert_custom("sidenote", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -109,7 +109,7 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert_custom("sidenote 1", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -121,7 +121,7 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert_custom("sidenote 2", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -133,7 +133,7 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert_custom("sidenote 3", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -145,7 +145,7 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert_custom("sidenote 4", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -157,7 +157,7 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert_custom("sidenote 5", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -168,7 +168,7 @@ defmodule Clutterstack.Publish.Converter do
   end
   def convert_custom("sidenote 6", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """
@@ -179,7 +179,7 @@ defmodule Clutterstack.Publish.Converter do
   end
   def convert_custom("sidenote 7", contents, earmark_opts) do
     processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing helper sidenote")
+    # IO.puts("processing helper sidenote")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     """

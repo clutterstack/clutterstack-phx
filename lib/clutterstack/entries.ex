@@ -5,7 +5,7 @@ defmodule Clutterstack.Entries do
 
   import Ecto.Query, warn: false
   alias Clutterstack.Repo
-  alias Clutterstack.Entries.Entry
+  alias Clutterstack.Entries.{Entry, Redirect}
 
   @doc """
   Returns a skinny list of all the entries of
@@ -64,7 +64,7 @@ defmodule Clutterstack.Entries do
     end)
   end
 
-    @doc """
+  @doc """
   Returns a list of the num latest *full* entries
   by date field.
 
@@ -73,7 +73,6 @@ defmodule Clutterstack.Entries do
       iex> latest_entries(2)
       [%Entry{}, %Entry{}]
   """
-
   def latest_entries(num) do
     query = from p in Entry,
       order_by: [desc: p.date],
@@ -96,10 +95,29 @@ defmodule Clutterstack.Entries do
       iex> entry_by_path(path)
       %Entry{}
   """
-
   def entry_by_path!(path) do
     Repo.get_by!(Entry, path: path)
     |> Map.update!(:meta, &Jason.decode!/1)
+  end
+
+  # For validating redirects
+  def entry_path_exists?(path) do
+    Repo.exists?(from e in "entries", where: e.path == ^path)
+  end
+
+  def create_redirect(attrs) do
+    new_path = attrs[:new_path] || attrs["new_path"]
+
+    if entry_path_exists?(new_path) do
+      %Redirect{}
+      |> Redirect.changeset(attrs)
+      |> Repo.insert(
+        on_conflict: [set: [new_path: new_path]],
+        conflict_target: :redirect_from
+      )
+    else
+      {:error, "new_path must reference an existing entry path"}
+    end
   end
 
   def upsert_entry!(attrs \\ %{}) do
@@ -110,6 +128,26 @@ defmodule Clutterstack.Entries do
     |> Repo.insert!(on_conflict: :replace_all)
   end
 
+  def upsert_redirect!(attrs \\ %{}) do
+    # IO.inspect(attrs, label: "trying to upsert! attrs:")
+    %Redirect{}
+    |> Redirect.changeset(attrs)
+    # |> IO.inspect(label: "inside upsert_redirect!()")
+    |> Repo.insert!(on_conflict: :replace_all)
+  end
+
+  def read_redirects() do
+    query = from r in Redirect,
+    select: {r.redirect_from, r.new_path}
+    Repo.all(query)
+  end
+
+  # Helper to get all redirects for an entry (Claude suggested this;
+  # I don't know where to use it yet)
+  def redirects_query(entry) do
+    from r in Clutterstack.Entries.Redirect,
+      where: r.new_path == ^entry.path
+  end
 
   #######################################################
   ########### Stock generated resource functions ########

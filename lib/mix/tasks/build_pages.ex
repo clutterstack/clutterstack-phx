@@ -3,19 +3,27 @@ defmodule Mix.Tasks.BuildPages do
   @impl Mix.Task
 
   import Ecto.Query, warn: false
-
+  Logger.configure(level: :info)
   require Logger
 
   alias Clutterstack.Repo
 
   def run(_args) do
+    # Mix.Task.run "app.start"
     Logger.configure(level: :info)
+    :logger.add_handler_filter(:default, :track_changes, {
+      fn _log, level, _meta ->
+        IO.puts "Logger level changed to: #{level}"
+        :ignore
+      end, nil})
+    # Application.put_env(:logger, :level, :info)
     things_started? = [:telemetry, :ecto]
     |> Enum.map(&Application.ensure_all_started/1)
     |> Enum.all?(&(elem(&1, 0) == :ok))
 
     if things_started? do
       Logger.info("Ecto started.")
+      Logger.info("Logger level inside BuildPages.run: #{:logger.get_config().primary.level}")
 
       Repo.start_link()
 

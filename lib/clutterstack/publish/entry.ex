@@ -1,21 +1,24 @@
 defmodule Clutterstack.Publish.Entry do
+  require Logger
 
   @enforce_keys [:title, :path, :body]
   defstruct [:title, :path, :section, :date, :kind, :body, :meta]
 
   def build(filename, attrs, body) do
-    IO.inspect(filename, label: "filename passed to build() in Clutterstack.Publish.Entry")
-    IO.inspect(attrs, label: "attrs passed to build() in Clutterstack.Publish.Entry")
+    # IO.inspect(:logger.get_config().primary.level, label: "Inside Clutterstack.Publish.Entry, the logger level is set to ")
+    Logger.debug("Clutterstack.Publish.Entry: #{filename}")
+    Logger.debug("attrs passed to build() in Clutterstack.Publish.Entry: #{inspect attrs}")
     path = Path.rootname(filename)
-    IO.puts("path: "<> path)
-
+    Logger.debug("path: #{path}")
 
     # Get rid of any .md extension
     path = path |> Path.rootname() |> Path.split() |> Enum.drop(1) |> Path.join()
-    |> IO.inspect(label: "joined truncate path")
-
-    section = path |> Path.split() |> Enum.drop(-1) |> IO.inspect(label: "sectiondrop") |> Enum.at(1) || ""
-    IO.inspect(section, label: "section in Publish.Entry")
+    Logger.debug("Joined truncate path: #{path}")
+    section = path
+      |> Path.split()
+      |> Enum.drop(-1)
+      |> Enum.at(1) || ""
+    Logger.debug("Section in Publish.Entry: #{section}")
     title = attrs["title"]
     kind = Map.get(attrs, "kind")
     date = Map.get(attrs, "date")

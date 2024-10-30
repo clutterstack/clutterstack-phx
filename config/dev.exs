@@ -64,7 +64,7 @@ config :clutterstack, ClutterstackWeb.Endpoint,
 config :clutterstack, dev_routes: true
 
 # Do not include metadata in development logs
-config :logger, :console, format: "$time [$level] $message\n"
+config :logger, :console, format: "$time [$level] $message\n", level: :info
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.

@@ -8,11 +8,12 @@ defmodule Clutterstack do
   """
 
   alias Clutterstack.Entries
+  require Logger
 
   # An app function to populate my content from markdown and other source files using my Nimble Publisher module:
 
   def build_pages() do
-    entries = Cansite.Publish.all_entries()
+    entries = Clutterstack.Publish.all_entries()
 
     for entry <- entries do
       store_doc(entry)
@@ -20,8 +21,9 @@ defmodule Clutterstack do
 
     #copy files from markdown/images/ to /priv/static/images/
     # Path.wildcard/2 and File.cp!/3
-    asset_files = Path.wildcard("./markdown/**/*.{svg,webp,jpg,png}")
-    IO.inspect(asset_files, label: "files found:")
+    asset_files = Path.wildcard("./markdown/**/*.{svg,webp,jpg,png}") || ""
+    # IO.inspect(asset_files, label: "files found")
+    Logger.info("Asset files found: #{inspect asset_files}")
     for filepath <- asset_files do
       # IO.inspect(filepath, label: "filepath")
       relpath = Path.relative_to(filepath, "markdown/") #|> IO.inspect(label: "relative_to")
@@ -32,11 +34,42 @@ defmodule Clutterstack do
     :ok
   end
 
+  # def store_doc(entry) do
+  #   entrymap = Map.from_struct(entry)
+  #   meta_JSON = Jason.encode!(entrymap.meta)
+  #   newmap = entrymap |> Map.replace(:meta, meta_JSON)
+  #   Entries.upsert_entry!(newmap)
+  # end
+
   def store_doc(entry) do
-    entrymap = Map.from_struct(entry)
-    meta_JSON = Jason.encode!(entrymap.meta)
-    newmap = entrymap |> Map.replace(:meta, meta_JSON)
-    Entries.upsert_entry!(newmap)
+    entry_map = Map.from_struct(entry)
+    Logger.debug("entry_map[meta][\"redirect_from\"]: #{inspect entry_map[:meta]["redirect_from"]}")
+
+    # Extract redirect_from and path before JSON encoding
+    redirects = get_in(entry_map, [:meta, "redirect_from"])
+    Logger.debug("checking on value of redirect_from before cond: #{inspect redirects}")
+    new_meta = cond do
+      redirects != nil ->
+        Logger.info("found a redirect: #{redirects}")
+        path = get_in(entry_map, [:path])
+        Logger.info("new path: #{path}")
+        # For every old path, store an entry in the redirects table
+        for redirect_from <- redirects do
+          Entries.upsert_redirect!(%{
+            redirect_from: redirect_from,
+            new_path: path
+          })
+        end
+        # Return meta without redirect_from
+        Map.delete(entry_map.meta, "redirect_from")
+      redirects == nil ->
+        # Return meta unchanged
+        entry_map.meta
+    end
+    json_meta = Jason.encode!(new_meta)
+    new_map = entry_map |> Map.replace(:meta, json_meta)
+    stored_entry = Entries.upsert_entry!(new_map)
+    {:ok, stored_entry}
   end
 
   # These templates aren't used when populating the database

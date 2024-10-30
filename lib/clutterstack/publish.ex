@@ -1,4 +1,4 @@
-defmodule Cansite.Publish do
+defmodule Clutterstack.Publish do
   alias Clutterstack.Publish.Entry
   alias Clutterstack.Publish.Parser
   alias Clutterstack.Publish.Converter

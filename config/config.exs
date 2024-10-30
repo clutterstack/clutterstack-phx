@@ -11,6 +11,10 @@ config :clutterstack,
   ecto_repos: [Clutterstack.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+# Seems to set the level of the logs this app outputs
+# config :clutterstack, Clutterstack.Repo,
+#   log: :debug
+
 # Configures the endpoint
 config :clutterstack, ClutterstackWeb.Endpoint,
   url: [host: "localhost"],
