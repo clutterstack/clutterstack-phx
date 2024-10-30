@@ -17,8 +17,8 @@ defmodule ClutterstackWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import ClutterstackWeb.Gettext
-
+  # import ClutterstackWeb.Gettext deprecated
+  use Gettext, backend: ClutterstackWeb.Gettext
   @doc """
   Renders a modal.
 

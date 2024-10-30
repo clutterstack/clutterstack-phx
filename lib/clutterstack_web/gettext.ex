@@ -20,5 +20,6 @@ defmodule ClutterstackWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :clutterstack
+  # use Gettext, otp_app: :clutterstack
+  use Gettext.Backend, otp_app: :clutterstack
 end
