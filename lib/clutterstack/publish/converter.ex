@@ -11,22 +11,22 @@ defmodule Clutterstack.Publish.Converter do
 
   def convert(filepath, body, _attrs, opts) do
     if Path.extname(filepath) in [".md", ".markdown"] do
-    Logger.debug("Converting Markdown file")
-    # IO.inspect(Path.extname, label: "extname is")
-    earmark_opts = Keyword.get(opts, :earmark_options, %Earmark.Options{})
-    body_list = splitter(body) # |> IO.inspect(label: "splitter(body)")
-    body_out = case body_list do
-      [head|tail] -> Enum.map([head|tail], fn item -> convert_item(item, earmark_opts) end)
-        # |> IO.inspect(label: "output map?????????")
-      one_piece -> convert_item(one_piece, earmark_opts)
-      # |> IO.inspect(label: "one_piece")
-    end
-    # |> IO.inspect(label: "Before join")
-    |> Enum.join
-    case Keyword.get(opts, :highlighters, []) do
-      [] -> body_out
-      [_ | _] -> highlight(body_out)
-    end
+      Logger.debug("Converting Markdown file")
+      # IO.inspect(Path.extname, label: "extname is")
+      earmark_opts = Keyword.get(opts, :earmark_options, %Earmark.Options{})
+      body_list = splitter(body) # |> IO.inspect(label: "splitter(body)")
+      body_out = case body_list do
+        [head|tail] -> Enum.map([head|tail], fn item -> convert_item(item, earmark_opts) end)
+          # |> IO.inspect(label: "output map?????????")
+        one_piece -> convert_item(one_piece, earmark_opts)
+        # |> IO.inspect(label: "one_piece")
+      end
+      # |> IO.inspect(label: "Before join")
+      |> Enum.join
+      case Keyword.get(opts, :highlighters, []) do
+        [] -> body_out
+        [_ | _] -> highlight(body_out)
+      end
     else # other files we won't change
       Logger.info("#{filepath}: Not a markdown file; passing body through unchanged")
       body

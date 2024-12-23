@@ -58,8 +58,9 @@ defmodule Clutterstack.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:nimble_publisher, "~> 1.0"},
-      {:makeup_elixir, ">= 0.0.0"},
-      {:makeup_erlang, ">= 0.0.0"},
+      {:makeup, "~>1.2.1"},
+      {:makeup_elixir, "~>1.0.1"},
+      {:makeup_eex, "~>1.0.0"},
       {:yaml_elixir, "~> 2.11"},
       {:sitemapper, "~> 0.8"},
     ]

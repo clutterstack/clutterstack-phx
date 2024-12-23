@@ -9,7 +9,8 @@ defmodule Clutterstack.Publish do
     from: "./markdown/**/*.md*",
     as: :entries,
     html_converter: Converter,
-    highlighters: [:makeup_elixir, :makeup_erlang]
+    highlighters: [:makeup_elixir, :makeup_erlang, :makeup_eex],
+    earmark_options: %Earmark.Options{code_class_prefix: "language-"}
 
   # Let other modules access @entries
   def all_entries, do: @entries

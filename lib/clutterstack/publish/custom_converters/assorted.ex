@@ -64,12 +64,6 @@ defmodule Clutterstack.CustomConverters.Assorted do
     """
   end
 
-  def convert_custom(_, contents, _earmark_opts) do
-    IO.puts("No known helper found; passing comment through")
-    contents
-  end
-
-  defmodule Clutterstack.CustomConverters.Sidenotes do
     # It's a kludge but these custom classes let me tweak how many grid
     # rows a sidenote takes, to match it up with the height of content
     # in the main article
@@ -169,7 +163,9 @@ defmodule Clutterstack.CustomConverters.Assorted do
       """
     end
 
+    def convert_custom(_, contents, _earmark_opts) do
+      IO.puts("No known helper found; passing comment through")
+      contents
+    end
 
   end
-
-end
