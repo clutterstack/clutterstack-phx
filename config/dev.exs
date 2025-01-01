@@ -24,6 +24,7 @@ config :clutterstack, ClutterstackWeb.Endpoint,
   secret_key_base: "M3fIXUQ4A/tLRz0UXTe2IC74S8SuGb+c3aJdy0dvjVeCqiDPz3vy4bRkPmMP/8m1",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:clutterstack, ~w(--sourcemap=inline --watch)]},
+    esbuild: {Esbuild, :install_and_run, [:rando, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:clutterstack, ~w(--watch)]}
   ]
 

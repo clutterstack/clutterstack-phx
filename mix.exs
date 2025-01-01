@@ -79,10 +79,11 @@ defmodule Clutterstack.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind clutterstack", "esbuild clutterstack"],
+      "assets.build": ["tailwind clutterstack", "esbuild clutterstack", "esbuild rando"],
       "assets.deploy": [
         "tailwind clutterstack --minify",
         "esbuild clutterstack --minify",
+        "esbuild rando --minify",
         "phx.digest"
       ]
     ]

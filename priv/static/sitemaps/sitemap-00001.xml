@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-  <loc>https://clutterstack.com/particles/elixir/add-highlight-js</loc>
+  <loc>https://clutterstack.com/particles/elixir/2024-09-14-livebook-scraps</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>https://clutterstack.com/particles/elixir/elixir-plug-static-paths</loc>
+  <loc>https://clutterstack.com/particles/elixir/2024-09-27-phoenix-tailwind-css</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>https://clutterstack.com/particles/elixir/livebook-scraps</loc>
+  <loc>https://clutterstack.com/particles/elixir/2024-10-26-elixir-plug-static-paths</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>https://clutterstack.com/particles/elixir/phoenix-tailwind-css</loc>
+  <loc>https://clutterstack.com/particles/elixir/js-in-phoenix</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
@@ -22,14 +22,6 @@
 </url>
 <url>
   <loc>https://clutterstack.com/particles/flydotio/update-app-no-build</loc>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>https://clutterstack.com/particles/phoenix/livebook-scraps</loc>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
-  <loc>https://clutterstack.com/particles/phoenix/phoenix-tailwind-css</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>

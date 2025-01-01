@@ -1,12 +1,16 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "../../priv/static/assets/makeup_friendly.css";
+@import "../vendor/makeup_friendly_mod_bg.css";
+@import "../vendor/highlight.js/styles/agate.min.css";
 
 /* This file is for your main application CSS */
 
 .can-content {
-    @apply md:grid grid-cols-[auto_200px] gap-x-8 auto-rows-min;
+    /* If  */
+   @apply md:grid grid-cols-[minmax(10rem,_40rem)_200px] lg:grid-cols-[40rem_minmax(200px,_300px)] gap-x-6 auto-rows-min;
+   /* grid-template-columns: minmax(10em, 60em) 200px; */
+   /* grid-cols-[minmax(20rem,_1fr)_200px] */
 }
 
 .can-content > * {
@@ -84,7 +88,7 @@ code.inline {
 }
 
 pre {
-    @apply p-4 bg-sky-50 rounded-lg mb-6 overflow-x-scroll;
+    @apply p-4 bg-sky-50 rounded-lg mb-6 overflow-x-auto;
 }
 
 .card {
@@ -99,12 +103,20 @@ a {
     @apply list-disc list-outside ml-4 mb-6;
 }
 
+.can-content ul ul {
+    @apply mt-2 mb-0;
+}
+
 .can-content ol {
     @apply list-decimal list-outside ml-4 mb-6;
 }
 
-.can-content li {
+.can-content li:not(:last-child) {
     @apply mb-2;
+}
+
+.sidenote li {
+    @apply mb-1;
 }
 
 ul li p, ol li p {
@@ -112,11 +124,11 @@ ul li p, ol li p {
     @apply mb-6;
  }
 
- li::marker {
+li::marker {
     font-size: 1em; /* Adjust the size of the marker if needed */
     vertical-align: top; /* Aligns the marker with the top of the first line */
   }
 
 hr {
-    @apply mb-6;
+    /* @apply mb-6; */
 }
