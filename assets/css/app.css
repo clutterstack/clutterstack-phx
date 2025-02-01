@@ -2,23 +2,25 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "../vendor/makeup_friendly_mod_bg.css";
-@import "../vendor/highlight.js/styles/agate.min.css";
+/* @import "../vendor/highlight.js/styles/a11y-light.css"; */
+@import "../vendor/highlight.js/styles/stackoverflow-light.css";
+@import "./annotated.css";
 
 /* This file is for your main application CSS */
 
 .can-content {
-    /* If  */
-   @apply md:grid grid-cols-[minmax(10rem,_40rem)_200px] lg:grid-cols-[40rem_minmax(200px,_300px)] gap-x-6 auto-rows-min;
+   @apply md:grid grid-cols-[minmax(10rem,_40rem)_200px] lg:grid-cols-[40rem_minmax(200px,_400px)] gap-x-6 auto-rows-min;
    /* grid-template-columns: minmax(10em, 60em) 200px; */
    /* grid-cols-[minmax(20rem,_1fr)_200px] */
 }
 
 .can-content > * {
-    grid-column: 1/2;
+    @apply col-start-1;
+    /* grid-column: 1/2; a default */
 }
 
 .can-content .callout {
-    @apply border border-slate-500 bg-slate-50 mb-6 p-4;
+    @apply border border-slate-300 bg-slate-50 mb-6 p-4;
 }
 
 .can-content .sidenote {
@@ -55,6 +57,10 @@
     grid-row: auto / span 7;
 }
 
+.hide-voluble .voluble {
+    display: none;
+}
+
 h1 {
     @apply text-2xl md:text-3xl font-semibold text-zinc-800 mb-6;
 }
@@ -79,6 +85,11 @@ blockquote {
     @apply border-l-8 border-l-rose-800 pl-4 mb-6 italic;
 }
 
+/* section.can-content code {
+    font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+    @apply text-sm;
+} */
+
 code.output {
     @apply -mt-8;
 }
@@ -87,8 +98,12 @@ code.inline {
     @apply text-rose-800 text-[0.95em];
 }
 
+a code.inline {
+    @apply font-semibold text-rose-700;
+}
+
 pre {
-    @apply p-4 bg-sky-50 rounded-lg mb-6 overflow-x-auto;
+    @apply p-4 bg-sky-50 border border-slate-300 rounded-lg mb-6 overflow-x-auto;
 }
 
 .card {

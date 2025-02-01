@@ -23,8 +23,8 @@ defmodule ClutterstackWeb.Router do
     end
     get "/posts", EntryController, :posts
     get "/particles", EntryController, :particles
-    get "/posts/:page", EntryController, :show_post
-    get "/particles/:theme/:page", EntryController, :show_particle
+    get "/posts/:page/*volubility", EntryController, :show_post
+    get "/particles/:theme/:page/*volubility", EntryController, :show_particle
     # get "/:section/:theme/:page", EntryController, :show_path
 
   end

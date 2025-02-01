@@ -4,8 +4,8 @@ defmodule ClutterstackWeb.RedirectPlug do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    IO.inspect(conn, label: "inside redirectplug")
-    IO.inspect(:ets.lookup(:redirects, conn.request_path), label: "the ets lookup")
+    # IO.inspect(conn, label: "inside redirectplug")
+    # IO.inspect(:ets.lookup(:redirects, conn.request_path), label: "the ets lookup")
     case :ets.lookup(:redirects, conn.request_path) do
       [{old, new}] -> IO.inspect([{old, new}], label: "looked up a redirect")
         conn

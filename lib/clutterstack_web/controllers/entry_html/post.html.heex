@@ -1,14 +1,6 @@
-<.header>
-  <:subtitle>
-    <%= if @page.date do %>
-      <%= @page.date %>
-    <% end %>
-     in <.link navigate={~p"/posts"}>Posts</.link>
-  </:subtitle>
-   <%= @page.title %>
-</.header>
+<.post_header page={@page} volubility={@volubility} path={@path} has_terse_version={@has_terse_version} />
 
-<section class="can-content">
+<section class={["can-content", @volubility == "terse" && "no-voluble"]} >
     <%= raw @page.body %>
 </section>
 

@@ -1,17 +1,7 @@
-<.header>
-  <:header_badge>
-    <.badge text={@page.section} />
-  </:header_badge>
-  <:subtitle>
-    <%= if @page.date do %>
-      <%= @page.date %>
-    <% end %>
-     in <.link navigate={~p"/particles"}>Particles</.link>
-  </:subtitle>
-   <%= @page.title %>
-</.header>
+<.particle_header page={@page} volubility={@volubility} path={@path} has_terse_version={@has_terse_version} />
 
-<section class="can-content">
+
+<section class={["can-content", @volubility == "terse" && "hide-voluble"]}>
     <%= raw @page.body %>
 </section>
 

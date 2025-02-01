@@ -11,6 +11,15 @@ module.exports = {
     "../lib/clutterstack_web.ex",
     "../lib/clutterstack_web/**/*.*ex"
   ],
+  safelist: [
+    'grid',
+    'grid-cols-subgrid',
+    'col-span-full',
+    'grid-cols-[4fr_3fr]',
+    {pattern: /col-span-\d+/},
+    {pattern: /row-span-\d+/},
+    {pattern: /grid-cols-./},
+  ],
   theme: {
     extend: {
       colors: {

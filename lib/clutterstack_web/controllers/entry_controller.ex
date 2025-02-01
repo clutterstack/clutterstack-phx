@@ -1,6 +1,6 @@
 defmodule ClutterstackWeb.EntryController do
   use ClutterstackWeb, :controller
-
+  require Logger
   alias Clutterstack.Entries
   alias Clutterstack.Entries.Entry
 
@@ -21,17 +21,40 @@ defmodule ClutterstackWeb.EntryController do
     render(conn, :particles, sections: section_list, all_items: particle_list, page_title: "Particles")
   end
 
-  def show_particle(conn, %{"theme" => theme, "page" => page}) do
-    # IO.inspect(theme, label: "theme in PostsController.show_particle")
+  def show_particle(conn, %{"theme" => theme, "page" => page, "volubility" => volubility_list}) do
+    Logger.info("in show_particle, volubility_list: " <> to_string(volubility_list))
+    volubility = case volubility_list do
+      [] -> "voluble"
+      [something] -> something # hopefully if it's not "voluble" it's "terse"
+    end
     path = Path.join(["particles", theme, page])
     page = Entries.entry_by_path!(path)
-    render(conn, :particle, page: page, page_title: page.title)
+    # Logger.info("page meta: " <> IO.inspect(page.meta["keywords"]))
+    has_terse_version =
+    if page.meta["versions"] do
+      if ("terse" in page.meta["versions"]), do: true, else: false
+    else
+      false
+    end
+    Logger.info("has terse version? " <> to_string(has_terse_version))
+    render(conn, :particle, page: page, page_title: page.title, volubility: volubility, path: path, has_terse_version: has_terse_version)
   end
 
-  def show_post(conn, %{"page" => page}) do
+  def show_post(conn, %{"page" => page, "volubility" => volubility_list}) do
+    volubility = case volubility_list do
+      [] -> "voluble"
+      [something] -> something
+    end
     path = Path.join("posts", page)
     page = Entries.entry_by_path!(path)
-    render(conn, :post, page: page, page_title: page.title)
+    has_terse_version =
+      if page.meta["versions"] do
+        if ("terse" in page.meta["versions"]), do: true, else: false
+      else
+        false
+      end
+      Logger.info("has terse version? " <> to_string(has_terse_version))
+    render(conn, :post, page: page, page_title: page.title, volubility: volubility, path: path, has_terse_version: has_terse_version)
   end
 
   ##### Generated actions for generated CRUD resources #####

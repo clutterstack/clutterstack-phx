@@ -13,7 +13,15 @@
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>https://clutterstack.com/particles/elixir/js-in-phoenix</loc>
+  <loc>https://clutterstack.com/particles/elixir/2024-12-31-js-in-phoenix</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://clutterstack.com/particles/elixir/2025-01-29-asdf-switch-erlang</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://clutterstack.com/particles/elixir/2025-01-31-iex-S</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
@@ -22,6 +30,10 @@
 </url>
 <url>
   <loc>https://clutterstack.com/particles/flydotio/update-app-no-build</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://clutterstack.com/particles/lagan/2025-01-12-tailwind-wrong-way</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
@@ -34,6 +46,10 @@
 </url>
 <url>
   <loc>https://clutterstack.com/posts/2024-10-24-llm-observations</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://clutterstack.com/posts/2025-01-30-observer-elixir</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>

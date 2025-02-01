@@ -1,3 +1,7 @@
+.gitignore
+.tool-versions
+*.conf
+
 # Fly.io
 fly.*
 Dockerfile
@@ -7,6 +11,7 @@ Dockerfile
 
 # Content
 /markdown/
+/markdrafts/
 /priv/static/sitemaps/
 
 # The directory Mix will write compiled artifacts to.
