@@ -21,10 +21,6 @@
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>https://clutterstack.com/particles/elixir/2025-01-31-iex-S</loc>
-  <changefreq>weekly</changefreq>
-</url>
-<url>
   <loc>https://clutterstack.com/particles/flydotio/app-not-listening</loc>
   <changefreq>weekly</changefreq>
 </url>
@@ -50,6 +46,10 @@
 </url>
 <url>
   <loc>https://clutterstack.com/posts/2025-01-30-observer-elixir</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://clutterstack.com/posts/2025-01-31-iex-S-mix-phx-server</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>

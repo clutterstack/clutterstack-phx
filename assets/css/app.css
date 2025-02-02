@@ -23,37 +23,41 @@
     @apply border border-slate-300 bg-slate-50 mb-6 p-4;
 }
 
+.can-content .card {
+    @apply mt-16 bg-violet-100;
+}
+
 .can-content .sidenote {
     @apply mx-6 pt-2 md:mx-0 border-t border-t-rose-500 text-sm;
     grid-column: 2/3;
     grid-row: auto / span 6;
 }
 
-.can-content .sidenote.onerow {
+.can-content .sidenote.rowspan-1 {
     grid-row: auto / span 1;
 }
 
-.can-content .sidenote.tworows {
+.can-content .sidenote.rowspan-2 {
     grid-row: auto / span 2;
 }
 
-.can-content .sidenote.threerows {
+.can-content .sidenote.rowspan-3 {
     grid-row: auto / span 3;
 }
 
-.can-content .sidenote.fourrows {
+.can-content .sidenote.rowspan-4 {
     grid-row: auto / span 4;
 }
 
-.can-content .sidenote.fiverows {
+.can-content .sidenote.rowspan-5 {
     grid-row: auto / span 5;
 }
 
-.can-content .sidenote.sixrows {
+.can-content .sidenote.rowspan-6 {
     grid-row: auto / span 6;
 }
 
-.can-content .sidenote.sevenrows {
+.can-content .sidenote.rowspan-7 {
     grid-row: auto / span 7;
 }
 
