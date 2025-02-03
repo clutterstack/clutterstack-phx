@@ -8,6 +8,7 @@
       <%= assigns[:page_title] || "Mystery Title" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <link :if={Mix.env() !== :prod} phx-track-static rel="stylesheet" href={~p"/assets/dev.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
     <!-- <script defer data-domain="clutterstack.com" src="https://plausible.io/js/script.js"></script> -->
