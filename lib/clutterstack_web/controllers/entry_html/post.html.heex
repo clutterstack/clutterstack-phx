@@ -1,6 +1,6 @@
 <.post_header page={@page} volubility={@volubility} path={@path} has_terse_version={@has_terse_version} />
 
-<section class={["can-content", @volubility == "terse" && "no-voluble"]} >
+<section class={["can-content", @volubility == "terse" && "hide-voluble"]} >
     <%= raw @page.body %>
 </section>
 

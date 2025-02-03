@@ -6,6 +6,7 @@ defmodule Clutterstack.CustomConverters.Assorted do
   # on the other hand, these helper processors are pretty readable.
 
   def convert_custom("callout", contents, earmark_opts, opts) do
+    IO.puts("processing helper callout")
     processed_contents = Earmark.as_html!(contents, earmark_opts)
     classes = "callout" <> (if opts.extra_classes !== nil, do: " #{opts.extra_classes}", else: "")
     """
@@ -17,7 +18,7 @@ defmodule Clutterstack.CustomConverters.Assorted do
 
   def convert_custom("important", contents, earmark_opts, opts) do
     processed_contents = Earmark.as_html!("**Important:** " <> contents, earmark_opts)
-    # IO.puts("processing helper important")
+    IO.puts("processing helper important")
     # IO.inspect(contents, label: "Contents passed to Earmark")
     # IO.inspect(processed_contents, label: "Earmark processed contents")
     classes = "notice-important" <> (if opts.extra_classes !== nil, do: " #{opts.extra_classes}", else: "")
@@ -58,6 +59,8 @@ defmodule Clutterstack.CustomConverters.Assorted do
 
   # A Claude adaptation to add extra classes and use arbitrary numbers to generate a class for the grid row span of the sidenote
   def convert_custom("sidenote", contents, earmark_opts, opts) do
+    IO.puts("processing helper sidenote")
+
     processed_contents = Earmark.as_html!(contents, earmark_opts)
     rows = Enum.find(opts.args, fn x -> is_number(x) or (is_binary(x) and String.match?(x, ~r/^\d+$/)) end) # If there's a number or a string representation of an integer in the args list, take that to be the intended grid-rows span
     base_classes = "sidenote" <> if rows != nil, do: " rowspan-#{rows}", else: ""

@@ -33,10 +33,24 @@ defmodule Clutterstack.Publish.Converter do
     end
   end
 
+  # def splitter(body) do
+  #   helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/(\1) -->/
+  #   body_list = String.split(body, helper_comment_pattern, include_captures: true)
+  #   # |> IO.inspect(label: "Body split by custom comments")
+  #   body_list
+  # end
+
+  # def splitter(body) do
+  #   helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/\1 -->/
+  #   parts = String.split(body, helper_comment_pattern, include_captures: true, trim: true)
+  #   # Now parts will contain alternating non-helper and helper content
+  #   parts
+  # end
+
   def splitter(body) do
-    helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/(\1) -->/
+    # Only capture the helper name, not its arguments
+    helper_comment_pattern = ~r/<!-- (\w+)[^>]*? -->([\s\S]*?)<!-- \/\1 -->/
     body_list = String.split(body, helper_comment_pattern, include_captures: true)
-    # |> IO.inspect(label: "Body split by custom comments")
     body_list
   end
 
@@ -55,39 +69,63 @@ defmodule Clutterstack.Publish.Converter do
   #    end
   # end
 
-
-  # Used Claude to adapt this for more flexibility in args, and specifically to take custom classes
+  # Used Claude and ChatGPT to adapt this for more flexibility in args, and specifically to take custom classes
   # e.g. <!-- sidenote 3 class="voluble" --> in the Markdown document source
   # right now, the order matters. Have to put other args before classes
   def convert_item(inputstr, earmark_opts) do
     # Simpler pattern that ensures closing tag matches opening tag
-    helper_pattern = ~r/<!-- (\w+)(.*?)-->([\s\S]*?)<!-- \/\1 -->/
-    # Replace each sidenote while keeping non-matching content intact
-  output =
-    Regex.replace(helper_pattern, inputstr, fn _whole_match, helper, args_str, contents ->
-      {classes, remaining_args} = extract_class_from_args(args_str)
+    helper_comment_pattern = ~r/<!-- (\w+)(.*?)-->([\s\S]*?)<!-- \/\1 -->/
+    case Regex.scan(helper_comment_pattern, inputstr) do
+      [[_whole_match, _helper, _args_str, _contents]] ->
+          Regex.replace(helper_comment_pattern, inputstr, fn _whole_match, helper, args_str, contents ->
+            Logger.info("in convert_item: helper is #{helper}; args_str is #{args_str}")
+            {explicit_classes, remaining_args} = extract_class_from_args(args_str)
 
-      args = remaining_args
-             |> String.split()
-             |> Enum.reject(&(&1 == ""))
+            remaining_args_list = remaining_args
+              |> String.split()
+              |> Enum.reject(&(&1 == ""))
+              |> IO.inspect(label: "remaining_args_list")
+            Logger.info("in convert_item, sending explicit_classes and remaining_args_list to voluble_arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
+            {classes, args} = voluble_arg_to_class(explicit_classes, remaining_args_list)
+          |> IO.inspect()
+            convert_custom(helper, contents, earmark_opts, %{
+              extra_classes: classes,
+              args: args
+            })
+          end)
 
-      convert_custom(helper, contents, earmark_opts, %{
-        extra_classes: classes,
-        args: args
-      })
-    end)
+      _ ->  Earmark.as_html!(inputstr, earmark_opts)
+    end
+  end
 
-  Earmark.as_html!(output, earmark_opts)
-end
   # Helper function to extract class from args string
   defp extract_class_from_args(args_str) do
     case Regex.run(~r/class="([^"]*)"/, args_str) do
       [class_str, classes] ->
+        Logger.info("in extract_class_from_args: class_str is #{IO.inspect(class_str)}")
+        Logger.info("in extract_class_from_args: classes is #{IO.inspect(classes)}")
         # Remove the class="..." from args and return both parts
-        remaining = String.replace(args_str, class_str, "")
-        {classes, String.trim(remaining)}
+        remaining_args = String.replace(args_str, class_str, "")
+        |> String.trim()
+        {classes, remaining_args}
       nil ->
         {nil, String.trim(args_str)}
     end
   end
+
+  defp voluble_arg_to_class(classes, args) do
+    Logger.info("voluble_arg_to_class: classes is #{classes}")
+    # Move "voluble" from an arg to a class if present
+    if "voluble" in args do
+      new_args = args |> Enum.reject(&(&1 == "voluble"))
+      new_classes = case classes do
+        nil -> "voluble"
+        _ -> classes <> " voluble"
+      end
+      {new_classes, new_args}
+    else
+      {classes, args}
+    end
+  end
+
 end
