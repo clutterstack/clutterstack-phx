@@ -14,7 +14,7 @@ defmodule Clutterstack.Publish.Converter do
       Logger.debug("Converting Markdown file")
       # IO.inspect(Path.extname, label: "extname is")
       earmark_opts = Keyword.get(opts, :earmark_options, %Earmark.Options{})
-      body_list = splitter(body) # |> IO.inspect(label: "splitter(body)")
+      body_list = splitter(body) #|> IO.inspect(label: "splitter(body)")
       body_out = case body_list do
         [head|tail] -> Enum.map([head|tail], fn item -> convert_item(item, earmark_opts) end)
           # |> IO.inspect(label: "output map?????????")
@@ -23,6 +23,8 @@ defmodule Clutterstack.Publish.Converter do
       end
       # |> IO.inspect(label: "Before join")
       |> Enum.join
+      |> voluble_post_pass()
+
       case Keyword.get(opts, :highlighters, []) do
         [] -> body_out
         [_ | _] -> highlight(body_out)
@@ -33,50 +35,94 @@ defmodule Clutterstack.Publish.Converter do
     end
   end
 
-  # def splitter(body) do
-  #   helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/(\1) -->/
-  #   body_list = String.split(body, helper_comment_pattern, include_captures: true)
-  #   # |> IO.inspect(label: "Body split by custom comments")
-  #   body_list
-  # end
-
-  # def splitter(body) do
-  #   helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/\1 -->/
-  #   parts = String.split(body, helper_comment_pattern, include_captures: true, trim: true)
-  #   # Now parts will contain alternating non-helper and helper content
-  #   parts
-  # end
-
-  def splitter(body) do
-    # Only capture the helper name, not its arguments
-    helper_comment_pattern = ~r/<!-- (\w+)[^>]*? -->([\s\S]*?)<!-- \/\1 -->/
-    body_list = String.split(body, helper_comment_pattern, include_captures: true)
-    body_list
+  def voluble_post_pass(body) do
+    body_list = voluble_splitter(body)
+    case body_list do
+      [head|tail] -> Enum.map([head|tail], fn segment -> mark_voluble(segment) end)
+        # |> IO.inspect(label: "output map?????????")
+      one_piece -> mark_voluble(one_piece)
+      # |> IO.inspect(label: "one_piece")
+      end
+    # |> IO.inspect(label: "Before join in voluble_post_pass")
+    |> Enum.join
   end
 
-  # def convert_item(inputstr, earmark_opts) do
-  #   helper_comment_pattern = ~r/<!-- (.*?) -->([\s\S]*?)<!-- \/(\1) -->/
-  #   case Regex.scan(helper_comment_pattern, inputstr) do
-  #     [[_whole_match, helper, contents, _helper_again]] ->
-  #       # IO.puts("found a helper pattern")
-  #       # IO.puts("helper: #{String.trim(helper)}")
-  #       # IO.puts("contents: #{String.trim(contents)}")
-  #       convert_custom(helper, contents, earmark_opts)
-  #     _ ->
-  #       # IO.inspect(Regex.scan(helper_comment_pattern, inputstr), label: "regex scan result")
-  #       # IO.puts("no helper in this item; processing md to html")
-  #       Earmark.as_html!(inputstr, earmark_opts)
-  #    end
-  # end
+  def voluble_splitter(body) do
+    # Only capture the helper name, not its arguments
+    helper_comment_pattern = ~r/<!-- (voluble\b)[^>]*? -->([\s\S]*?)<!-- \/\1 -->/
+    String.split(body, helper_comment_pattern, include_captures: true)
+  end
+
+  def mark_voluble(inputstr) do
+    # Simpler pattern that ensures closing tag matches opening tag
+    helper_comment_pattern = ~r/<!-- (voluble\b)(.*?)-->([\s\S]*?)<!-- \/\1 -->/
+    case Regex.scan(helper_comment_pattern, inputstr) do
+      [[_whole_match, _helper, _args_str, _contents]] ->
+        Regex.replace(helper_comment_pattern, inputstr, fn _whole_match, helper, args_str, contents ->
+          Logger.info("in mark_voluble: helper is #{helper}; args_str is #{args_str}")
+          {explicit_classes, remaining_args} = extract_class_from_args(args_str)
+          remaining_args_list = remaining_args
+            |> String.split()
+            |> Enum.reject(&(&1 == ""))
+            |> IO.inspect(label: "remaining_args_list")
+             # Logger.info("in mark_voluble, sending explicit_classes and remaining_args_list to voluble_arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
+            classes = "voluble" <> (if explicit_classes !== nil, do: " #{explicit_classes}", else: "")
+            # Now just add classes to the existing elements (wrapping in a div messes up my grid)
+            contents
+            |> Floki.parse_fragment!()
+            |> then(fn parsed ->
+              # Get top level nodes first
+              top_level = case parsed do
+                # If parsed is a list of nodes already
+                nodes when is_list(nodes) -> nodes
+                # If parsed is a single node
+                node when is_tuple(node) -> [node]
+                # Handle other cases
+                _ -> []
+              end
+
+            # Then traverse and update
+            Floki.traverse_and_update(parsed, fn
+              {tag, attrs, children} = node when is_tuple(node) ->
+                if Enum.member?(top_level, node) do
+                  existing_class = attrs |> Enum.find_value(fn
+                    {"class", val} -> val
+                    _ -> nil
+                  end)
+
+                  new_class = case existing_class do
+                    nil -> classes
+                    val -> "#{val} #{classes}"
+                  end
+
+                  {tag, [{"class", new_class} | attrs], children}
+                else
+                  node
+                end
+              other -> other  # Pass through text nodes or other content
+            end)
+          end)
+          |> Floki.raw_html()
+        end)
+      _ ->  inputstr
+    end
+  end
+
+  def splitter(body) do
+    # Capture the helper name, not its arguments. Don't match if the helper is "voluble".
+    helper_comment_pattern = ~r/<!-- (?!voluble\b)(\w+)[^>]*? -->([\s\S]*?)<!-- \/\1 -->/
+    String.split(body, helper_comment_pattern, include_captures: true)
+  end
+
 
   # Used Claude and ChatGPT to adapt this for more flexibility in args, and specifically to take custom classes
   # e.g. <!-- sidenote 3 class="voluble" --> in the Markdown document source
   # right now, the order matters. Have to put other args before classes
   def convert_item(inputstr, earmark_opts) do
     # Simpler pattern that ensures closing tag matches opening tag
-    helper_comment_pattern = ~r/<!-- (\w+)(.*?)-->([\s\S]*?)<!-- \/\1 -->/
+    helper_comment_pattern = ~r/<!-- (?!voluble\b)(\w+)(.*?) -->([\s\S]*?)<!-- \/\1 -->/
     case Regex.scan(helper_comment_pattern, inputstr) do
-      [[_whole_match, _helper, _args_str, _contents]] ->
+      [[_whole_match, helper, args_str, contents]] ->
           Regex.replace(helper_comment_pattern, inputstr, fn _whole_match, helper, args_str, contents ->
             Logger.info("in convert_item: helper is #{helper}; args_str is #{args_str}")
             {explicit_classes, remaining_args} = extract_class_from_args(args_str)
@@ -93,7 +139,6 @@ defmodule Clutterstack.Publish.Converter do
               args: args
             })
           end)
-
       _ ->  Earmark.as_html!(inputstr, earmark_opts)
     end
   end

@@ -43,19 +43,33 @@ defmodule Clutterstack.CustomConverters.Assorted do
     """
   end
 
-  def convert_custom("voluble", contents, earmark_opts, opts) do
-    processed_contents = Earmark.as_html!(contents, earmark_opts)
-    IO.puts("processing voluble helper")
-    # IO.inspect(contents, label: "Contents passed to Earmark")
-    # IO.inspect(processed_contents, label: "Earmark processed contents")
-    classes = "voluble" <> (if opts.extra_classes !== nil, do: " #{opts.extra_classes}", else: "")
+  # Added a special post-processing pass for voluble markers, so don't want this getting picked up in the helpers pass.
+  # def convert_custom("voluble", contents, earmark_opts, opts) do
+  #   processed_contents = Earmark.as_html!(contents, earmark_opts)
+  #   IO.puts("processing voluble helper")
+  #   # IO.inspect(contents, label: "Contents passed to Earmark")
+  #   # IO.inspect(processed_contents, label: "Earmark processed contents")
+  #   classes = "voluble" <> (if opts.extra_classes !== nil, do: " #{opts.extra_classes}", else: "")
 
-    """
-    <div class="#{classes}">
-      #{processed_contents}
-    </div>
-    """
-  end
+  #   """
+  #   <div class="#{classes}">
+  #     #{processed_contents}
+  #   </div>
+  #   """
+  # end
+  # def convert_custom("voluble", contents, earmark_opts, opts) do
+  #   processed_contents = Earmark.as_html!(contents, earmark_opts)
+  #   IO.puts("processing voluble helper")
+  #   # IO.inspect(contents, label: "Contents passed to Earmark")
+  #   # IO.inspect(processed_contents, label: "Earmark processed contents")
+  #   classes = "voluble" <> (if opts.extra_classes !== nil, do: " #{opts.extra_classes}", else: "")
+
+  #   """
+  #   <div class="#{classes}">
+  #     #{processed_contents}
+  #   </div>
+  #   """
+  # end
 
   # A Claude adaptation to add extra classes and use arbitrary numbers to generate a class for the grid row span of the sidenote
   def convert_custom("sidenote", contents, earmark_opts, opts) do
@@ -73,9 +87,9 @@ defmodule Clutterstack.CustomConverters.Assorted do
     """
   end
 
-  def convert_custom(_, contents, _earmark_opts, _opts) do
-    IO.puts("No known helper found; passing comment through")
-    contents
+  def convert_custom(_, contents, earmark_opts, _opts) do
+    IO.puts("No known helper found; just converting Markdown")
+    Earmark.as_html!(contents, earmark_opts)
   end
 
 end
