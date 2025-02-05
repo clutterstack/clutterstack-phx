@@ -39,9 +39,7 @@ defmodule Clutterstack.Publish.Converter do
     body_list = voluble_splitter(body)
     case body_list do
       [head|tail] -> Enum.map([head|tail], fn segment -> mark_voluble(segment) end)
-        # |> IO.inspect(label: "output map?????????")
       one_piece -> mark_voluble(one_piece)
-      # |> IO.inspect(label: "one_piece")
       end
     # |> IO.inspect(label: "Before join in voluble_post_pass")
     |> Enum.join
@@ -113,7 +111,6 @@ defmodule Clutterstack.Publish.Converter do
     helper_comment_pattern = ~r/<!-- (?!voluble\b)(\w+)[^>]*? -->([\s\S]*?)<!-- \/\1 -->/
     String.split(body, helper_comment_pattern, include_captures: true)
   end
-
 
   # Used Claude and ChatGPT to adapt this for more flexibility in args, and specifically to take custom classes
   # e.g. <!-- sidenote 3 class="voluble" --> in the Markdown document source

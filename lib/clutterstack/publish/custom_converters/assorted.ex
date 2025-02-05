@@ -73,7 +73,7 @@ defmodule Clutterstack.CustomConverters.Assorted do
 
   # A Claude adaptation to add extra classes and use arbitrary numbers to generate a class for the grid row span of the sidenote
   def convert_custom("sidenote", contents, earmark_opts, opts) do
-    IO.puts("processing helper sidenote")
+    IO.puts("processing sidenote helper")
 
     processed_contents = Earmark.as_html!(contents, earmark_opts)
     rows = Enum.find(opts.args, fn x -> is_number(x) or (is_binary(x) and String.match?(x, ~r/^\d+$/)) end) # If there's a number or a string representation of an integer in the args list, take that to be the intended grid-rows span
@@ -84,6 +84,33 @@ defmodule Clutterstack.CustomConverters.Assorted do
     <aside class="#{classes}">
       #{processed_contents}
     </aside>
+    """
+  end
+
+  def convert_custom("details", contents, earmark_opts, opts) do
+    IO.puts("processing details helper")
+    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    summary = Enum.find_value(opts.args, fn x ->
+      if is_binary(x) do
+        case Regex.run(~r/\bsummary\s?=\s?"(.*)"/, x) do
+          [_, capture] -> capture |> IO.inspect(label: "capture")
+          nil -> ""
+        end
+      else
+        ""
+      end
+    end)
+    processed_summary =  Earmark.as_html!(summary, earmark_opts)
+    # Extract content from <p> tags
+    |> Floki.find("p") |> Floki.text()
+    # IO.inspect(summary, label = "summary")
+    classes = if opts.extra_classes == "", do: "", else: "#{opts.extra_classes}"
+
+    """
+    <details class="#{classes}">
+      <summary>#{processed_summary}</summary>
+      #{processed_contents}
+    </details>
     """
   end
 
