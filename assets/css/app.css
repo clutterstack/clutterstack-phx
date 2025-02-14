@@ -143,6 +143,19 @@ ul li p, ol li p {
     @apply mb-6;
  }
 
+
+dl p {
+    @apply mb-2;
+}
+
+dt {
+    @apply font-bold;
+}
+
+dd {
+    @apply ml-8;
+}
+
 li::marker {
     font-size: 1em; /* Adjust the size of the marker if needed */
     vertical-align: top; /* Aligns the marker with the top of the first line */
