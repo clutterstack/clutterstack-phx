@@ -60,6 +60,9 @@ defmodule Clutterstack.CustomConverters.Assorted do
     """
   end
 
+  # <!-- details summary="Label" -->
+  # Contents to reveal
+  # <!-- /details -->
   def convert_custom("details", contents, earmark_opts, opts) do
     IO.puts("processing details helper")
     processed_contents = Earmark.as_html!(contents, earmark_opts)

@@ -17,7 +17,6 @@ defmodule Clutterstack.Publish.Converter do
       body_list = splitter(body) #|> IO.inspect(label: "splitter(body)")
       body_out = case body_list do
         [head|tail] -> Enum.map([head|tail], fn item -> convert_item(item, earmark_opts) end)
-          # |> IO.inspect(label: "output map?????????")
         one_piece -> convert_item(one_piece, earmark_opts)
         # |> IO.inspect(label: "one_piece")
       end
@@ -63,7 +62,7 @@ defmodule Clutterstack.Publish.Converter do
             |> String.split()
             |> Enum.reject(&(&1 == ""))
             # |> IO.inspect(label: "remaining_args_list")
-             # Logger.info("in mark_voluble, sending explicit_classes and remaining_args_list to voluble_arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
+             # Logger.info("in mark_voluble, sending explicit_classes and remaining_args_list to arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
             classes = "voluble" <> (if explicit_classes !== nil, do: " #{explicit_classes}", else: "")
             # Now just add classes to the existing elements (wrapping in a div messes up my grid)
             contents
@@ -128,8 +127,8 @@ defmodule Clutterstack.Publish.Converter do
               |> String.split()
               |> Enum.reject(&(&1 == ""))
               |> IO.inspect(label: "remaining_args_list")
-            # Logger.info("in convert_item, sending explicit_classes and remaining_args_list to voluble_arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
-            {classes, args} = voluble_arg_to_class(explicit_classes, remaining_args_list)
+            # Logger.info("in convert_item, sending explicit_classes and remaining_args_list to arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
+            {classes, args} = arg_to_class(explicit_classes, remaining_args_list)
           |> IO.inspect()
             convert_custom(helper, contents, earmark_opts, %{
               extra_classes: classes,
@@ -155,8 +154,8 @@ defmodule Clutterstack.Publish.Converter do
     end
   end
 
-  defp voluble_arg_to_class(classes, args) do
-    Logger.info("voluble_arg_to_class: classes is #{classes}")
+  defp arg_to_class(classes, args) do
+    Logger.info("arg_to_class: classes is #{classes}")
     # Move "voluble" from an arg to a class if present
     if "voluble" in args do
       new_args = args |> Enum.reject(&(&1 == "voluble"))

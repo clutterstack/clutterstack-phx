@@ -1,0 +1,16 @@
+#!/usr/bin/env elixir
+
+IO.puts("Environment variables:")
+IO.puts("---------------------")
+System.get_env()
+|> Enum.sort_by(fn {k, _} -> k end)
+|> Enum.each(fn {k, v} -> 
+  IO.puts("#{k}=#{v}")
+end)
+
+IO.puts("\nMix-specific environment:")
+IO.puts("------------------------")
+mix_vars = ~w(MIX_ENV MIX_TARGET MIX_PATH MIX_ARCHIVES MIX_HOME MIX_DEBUG MIX_EXS MIX_QUIET MIX_PROFILE)
+for var <- mix_vars do
+  IO.puts("#{var}=#{System.get_env(var)}")
+end

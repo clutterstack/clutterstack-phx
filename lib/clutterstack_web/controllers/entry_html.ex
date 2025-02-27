@@ -40,12 +40,13 @@ defmodule ClutterstackWeb.EntryHTML do
 
   attr :volubility, :string, default: "voluble", doc: "true when checked"
   attr :path, :string
+  attr :page, :any
   attr :has_terse_version, :boolean, default: false
   def post_header(assigns) do
     ~H"""
-    <header class="can-content mb-6">
+    <header class="can-content">
       <h1 class="col-span-2"><%= @page.title %></h1>
-      <div class="-mt-4 text-sm leading-6 text-zinc-600 flex justify-between">
+      <div class="-mt-4 text-sm leading-6 text-zinc-600 flex justify-between items-end">
         <div>
           <%= if @page.date do %>
             <%= @page.date %>

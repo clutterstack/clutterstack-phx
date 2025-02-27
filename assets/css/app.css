@@ -8,8 +8,27 @@
 
 /* This file is for your main application CSS */
 
-.can-content {
-   @apply md:grid grid-cols-[minmax(10rem,_40rem)_200px] lg:grid-cols-[40rem_minmax(200px,_400px)] gap-x-6 auto-rows-min;
+/* Set the base font size a little bigger */
+body {
+    font-size: 110%;  
+    @apply bg-amber-50/20 px-4 mx-auto max-w-6xl;
+}
+
+#main-content {
+    @apply py-2 md:py-6;
+}
+header.can-content {
+    @apply mb-6;
+}
+
+section.can-content {
+  /* background-image: 
+      linear-gradient(#ccc 1px, transparent 1px),
+      linear-gradient(90deg, #ccc 1px, transparent 1px),
+      linear-gradient(#ddd 0.5px, transparent 0.5px),
+      linear-gradient(90deg, #ddd 0.5px, transparent 0.5px);
+    background-size: 80px 80px, 80px 80px, 8px 8px, 8px 8px; */
+   @apply justify-center md:grid grid-cols-[minmax(10rem,_44rem)_240px] lg:grid-cols-[44rem_minmax(240px,_300px)] gap-x-10 auto-rows-min;
    /* grid-template-columns: minmax(10em, 60em) 200px; */
    /* grid-cols-[minmax(20rem,_1fr)_200px] */
 }
@@ -19,8 +38,8 @@
     /* grid-column: 1/2; a default */
 }
 
-.can-content .callout {
-    @apply border border-slate-300 bg-slate-50 mb-6 p-4;
+.can-content .callout, .can-content .notice-important {
+    @apply border rounded-lg border-slate-600 bg-sky-50/40 mt-4 mb-8 px-4 pt-4;
 }
 
 .can-content .card {
@@ -66,23 +85,41 @@
 }
 
 h1 {
-    @apply text-2xl md:text-3xl font-semibold text-zinc-800 mb-6;
+    @apply mb-6 text-2xl md:text-3xl font-semibold ;
+}
+
+h1, h1 code.inline {
+    @applytext-zinc-800;
 }
 
 h2 {
-    @apply text-xl md:text-2xl font-medium mt-4 mb-6;
+    @apply mb-6 mt-4 border-b text-xl md:text-[1.65rem] font-semibold ;
+}
+
+
+h2, h2 code.inline {
+    @apply text-zinc-800;
 }
 
 h3 {
-    @apply text-lg md:text-xl font-medium mb-4;
+    @apply mt-2 mb-4 border-b text-lg md:text-[1.35rem] font-semibold ;
 }
 
+
+h3, h3 code.inline {
+    @apply text-zinc-800;
+}
 h4 {
-    @apply md:text-lg font-semibold;
+  @apply mt-2 mb-4 border-b;
+
+}
+
+h4, h4 code.inline {
+    @apply md:text-lg text-zinc-800 font-semibold;
 }
 
 p {
-    @apply text-slate-900 mb-6;
+    @apply text-slate-900 mb-4;
 }
 
 blockquote {
@@ -99,61 +136,69 @@ code.output {
 }
 
 code.inline {
-    @apply text-rose-800 text-[0.95em];
+    @apply text-rose-800 text-[0.95em]/[1.2] inline-block mx-1 border-b bg-sky-50/40;
 }
 
 a code.inline {
-    @apply font-semibold text-rose-700;
+    @apply text-sky-700 border-sky-700 border-dashed;
 }
 
 pre {
-    @apply p-4 bg-sky-50 border border-slate-300 rounded-lg mb-6 overflow-x-auto;
+    @apply px-4 py-2 bg-sky-50 text-[0.85rem] border border-slate-200 rounded-lg mb-6 overflow-x-auto;
 }
 
 .card {
     @apply p-4 bg-blue-100 text-blue-800 rounded-lg;
-  }
+}
 
 a {
     @apply text-sky-700 hover:underline decoration-dashed;
 }
 
-.can-content ul {
-    @apply list-disc list-outside ml-4 mb-6;
+.can-content ul, ol {
+    @apply list-disc list-outside ml-6 mb-6;
 }
 
-.can-content ul ul {
-    @apply mt-2 mb-0;
+.can-content ul {
+  @apply list-disc;
 }
 
 .can-content ol {
-    @apply list-decimal list-outside ml-4 mb-6;
+  @apply list-decimal;
+}
+
+.can-content ul ul {
+    @apply mt-1 mb-0;
 }
 
 .can-content li:not(:last-child) {
-    @apply mb-2;
+    @apply mb-1;
 }
 
 .sidenote li {
     @apply mb-1;
 }
 
+/* ul li, ol li {
+  @apply mb-0;
+} */
+
 ul li p, ol li p {
-    /*display: inline-block;*/
-    @apply mb-6;
- }
-
-
-dl p {
-    @apply mb-2;
+  /*display: inline-block;*/
+  @apply mb-4;
 }
 
-dt {
-    @apply font-bold;
+
+dl p, dl pre {
+    @apply mb-4 mr-12;
+}
+
+dt p, dt code.inline{
+    @apply font-semibold text-slate-900 border-none;
 }
 
 dd {
-    @apply ml-8;
+    @apply ml-12 mb-8;
 }
 
 li::marker {

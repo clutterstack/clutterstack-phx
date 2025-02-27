@@ -33,6 +33,10 @@
   <changefreq>weekly</changefreq>
 </url>
 <url>
+  <loc>https://clutterstack.com/particles/lagan/resources-erlang-otp</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
   <loc>https://clutterstack.com/posts/2024-09-27-applenotes</loc>
   <changefreq>weekly</changefreq>
 </url>
@@ -49,7 +53,7 @@
   <changefreq>weekly</changefreq>
 </url>
 <url>
-  <loc>https://clutterstack.com/posts/2025-01-31-iex-S-mix-phx-server</loc>
+  <loc>https://clutterstack.com/posts/2025-02-27-iex-S-mix-phx-server</loc>
   <changefreq>weekly</changefreq>
 </url>
 <url>
