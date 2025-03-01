@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>https://clutterstack.com/</id>
-  <updated>2025-03-01T04:11:52.871509Z</updated>
+  <updated>2025-03-01T04:27:23.666672Z</updated>
   <title>Clutterstack</title>
+  <link rel="self" href="https://clutterstack.com/feed.xml"/>
   <author>
     <name>Chris Nicoll</name>
   </author>

@@ -7,11 +7,12 @@ defmodule Clutterstack.Atomfeed do
     author ={:author, nil, [{:name, nil, "Chris Nicoll"}]}
     uri = "https://clutterstack.com/"
     updated = current_time_iso8601()
+    link = {:link, [rel: "alternate", href: uri], nil}
     entries =  Entries.latest_entries(10)
       |> Enum.sort_by(&(&1.date), :desc)
       |> Enum.map(&feedentrytuple(&1.title, &1.path, &1.date, &1.body))
 
-    XmlBuilder.document({:feed, [xmlns: "http://www.w3.org/2005/Atom"], [{:id, nil, uri}, {:updated, nil, updated}, {:title, nil, "Clutterstack"}, author | entries]})
+    XmlBuilder.document({:feed, [xmlns: "http://www.w3.org/2005/Atom"], [{:id, nil, uri}, {:updated, nil, updated}, {:title, nil, "Clutterstack"}, {:link, [rel: "self", href: "#{uri}feed.xml"], nil}, author | entries]})
       |> XmlBuilder.generate
       |> write_file()
   end
