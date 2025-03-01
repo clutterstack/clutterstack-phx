@@ -1,6 +1,7 @@
 defmodule Clutterstack.Sitemapper do
   alias Clutterstack.Repo
 
+  # Using the Sitemapper library https://github.com/breakroom/sitemapper
   # See https://framagit.org/framasoft/mobilizon/-/blob/#0e5d1027c92617b290fd226c7b5af8262f3447af/lib/service/site_map.ex
   # for a very nice sitemapper setup
 
@@ -31,7 +32,7 @@ defmodule Clutterstack.Sitemapper do
       |> Stream.map(fn %Clutterstack.Entries.Entry{path: path} ->
         %Sitemapper.URL{
           loc: "https://clutterstack.com/#{path}",
-          changefreq: :weekly
+          changefreq: :yearly
         }
       end)
       |> Stream.concat(static_routes)
@@ -40,4 +41,5 @@ defmodule Clutterstack.Sitemapper do
       |> Stream.run()
     end)
   end
+
 end

@@ -35,7 +35,7 @@ defmodule Clutterstack.MixProject do
       {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.5"},
       #{:earmark, "~>1.4.47"},
-      {:earmark, path: "~/Downloads/earmark", override: true},
+      {:earmark, git: "https://github.com/clutterstack/earmark.git", branch: "dl", override: true},
       {:ecto_sql, "~> 3.10"},
       {:ecto_sqlite3, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
@@ -65,6 +65,7 @@ defmodule Clutterstack.MixProject do
       {:makeup_eex, "~>1.0.0"},
       {:yaml_elixir, "~> 2.11"},
       {:sitemapper, "~> 0.8"},
+      {:xml_builder, "~> 2.1"},
     ]
   end
 
