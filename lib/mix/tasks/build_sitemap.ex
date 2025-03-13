@@ -15,7 +15,7 @@ defmodule Mix.Tasks.BuildSitemap do
     |> Enum.all?(&(elem(&1, 0) == :ok))
 
     if things_started? do
-      Logger.info("Ecto started.")
+      # Logger.info("Ecto started.")
 
       Repo.start_link()
 

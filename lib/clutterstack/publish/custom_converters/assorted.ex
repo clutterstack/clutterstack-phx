@@ -90,45 +90,45 @@ defmodule Clutterstack.CustomConverters.Assorted do
     """
   end
 
-  def convert_custom("dl", contents, earmark_opts, opts) do
-    IO.puts("processing dl helper")
-    matchreg = ~r/[^:\n].+?(?:\n:\s+.*)+/
-    splitreg = ~r/\n(:\s+.*?)/
-    [item | t] = Regex.scan(matchreg, contents)
-    IO.inspect(item, label: "item: ")
-    if item == nil do
-      Logger.warning("No contents matching definition list pattern.")
-      ""
-    end
-    if t !== [] do
-      Logger.warning("Too many items found! Helper is limited to one right now.")
-      ""
-    else
-      [item_name | paras] = Regex.split(splitreg, item)
-            IO.inspect(paras, label: "paras before earmark: ")
-            processed_name = Earmark.as_html!(item_name, earmark_opts)
-            processed_paras =
-              paras
-                |> Enum.map(fn para -> Earmark.as_html!(para, earmark_opts) end)
-                |> Enum.map(&{"dd", [], [&1]})
-                |> IO.inspect(label: "before floki")
-                |> Floki.raw_html([encode: false, pretty: true])
-                |> IO.inspect(label: "after floki")
+  # def convert_custom("dl", contents, earmark_opts, _opts) do
+  #   IO.puts("processing dl helper")
+  #   matchreg = ~r/[^:\n].+?(?:\n:\s+.*)+/
+  #   splitreg = ~r/\n(:\s+.*?)/
+  #   [item | t] = Regex.scan(matchreg, contents)
+  #   IO.inspect(item, label: "item: ")
+  #   if item == nil do
+  #     Logger.warning("No contents matching definition list pattern.")
+  #     ""
+  #   end
+  #   if t !== [] do
+  #     Logger.warning("Too many items found! Helper is limited to one right now.")
+  #     ""
+  #   else
+  #     [item_name | paras] = Regex.split(splitreg, item)
+  #           IO.inspect(paras, label: "paras before earmark: ")
+  #           processed_name = Earmark.as_html!(item_name, earmark_opts)
+  #           processed_paras =
+  #             paras
+  #               |> Enum.map(fn para -> Earmark.as_html!(para, earmark_opts) end)
+  #               |> Enum.map(&{"dd", [], [&1]})
+  #               |> IO.inspect(label: "before floki")
+  #               |> Floki.raw_html([encode: false, pretty: true])
+  #               |> IO.inspect(label: "after floki")
 
-            IO.inspect(processed_paras, label: "processed_paras")
-            # new_string = Enum.join(processed_paras)
-            # IO.inspect(new_string, label: "new_string")
-            """
-            <dl>
-              <dt>#{processed_name}</dt>
-              #{processed_paras}
-            </dl>
-            """
-            #new_string
-    end
-  end
+  #           IO.inspect(processed_paras, label: "processed_paras")
+  #           # new_string = Enum.join(processed_paras)
+  #           # IO.inspect(new_string, label: "new_string")
+  #           """
+  #           <dl>
+  #             <dt>#{processed_name}</dt>
+  #             #{processed_paras}
+  #           </dl>
+  #           """
+  #           #new_string
+  #   end
+  # end
 
-  def convert_custom(_, contents, earmark_opts, _opts) do
+  def convert_custom(_, contents, _earmark_opts, _opts) do
     IO.puts("No known helper found; passing through")
     # Earmark.as_html!(contents, earmark_opts)
     contents

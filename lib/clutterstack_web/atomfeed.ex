@@ -7,7 +7,6 @@ defmodule Clutterstack.Atomfeed do
     author ={:author, nil, [{:name, nil, "Chris Nicoll"}]}
     uri = "https://clutterstack.com/"
     updated = current_time_iso8601()
-    link = {:link, [rel: "alternate", href: uri], nil}
     entries =  Entries.latest_entries(10)
       |> Enum.sort_by(&(&1.date), :desc)
       |> Enum.map(&feedentrytuple(&1.title, &1.path, &1.date, &1.body))
@@ -48,7 +47,7 @@ defmodule Clutterstack.Atomfeed do
   defp convert_date(date_string) do
     # e.g. "2025-02-27"
     {:ok, date} = Date.from_iso8601(date_string)
-    datetime = DateTime.new!(date, ~T[00:00:00.000], "Etc/UTC")
+    DateTime.new!(date, ~T[00:00:00.000], "Etc/UTC")
     |> DateTime.to_iso8601()
   end
 end

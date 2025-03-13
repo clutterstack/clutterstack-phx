@@ -28,7 +28,7 @@ section.can-content {
       linear-gradient(#ddd 0.5px, transparent 0.5px),
       linear-gradient(90deg, #ddd 0.5px, transparent 0.5px);
     background-size: 80px 80px, 80px 80px, 8px 8px, 8px 8px; */
-   @apply justify-center md:grid grid-cols-[minmax(10rem,_44rem)_240px] lg:grid-cols-[44rem_minmax(240px,_300px)] gap-x-10 auto-rows-min;
+   @apply justify-center md:grid grid-cols-[minmax(10rem,_42rem)_240px] lg:grid-cols-[42rem_minmax(240px,_300px)] gap-x-10 auto-rows-min;
    /* grid-template-columns: minmax(10em, 60em) 200px; */
    /* grid-cols-[minmax(20rem,_1fr)_200px] */
 }

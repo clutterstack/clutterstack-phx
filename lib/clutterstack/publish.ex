@@ -13,5 +13,8 @@ defmodule Clutterstack.Publish do
     # earmark_options: %Earmark.Options{code_class_prefix: "language-"}
 
   # Let other modules access @entries
-  def all_entries, do: @entries
+  def all_entries do
+    # IO.inspect(:logger.get_config().primary.level, label: "Inside Clutterstack.Publish, the logger level is set to ")
+    @entries
+  end
 end

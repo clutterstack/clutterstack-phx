@@ -34,13 +34,6 @@ defmodule Clutterstack do
     :ok
   end
 
-  # def store_doc(entry) do
-  #   entrymap = Map.from_struct(entry)
-  #   meta_JSON = Jason.encode!(entrymap.meta)
-  #   newmap = entrymap |> Map.replace(:meta, meta_JSON)
-  #   Entries.upsert_entry!(newmap)
-  # end
-
   def store_doc(entry) do
     entry_map = Map.from_struct(entry)
     Logger.debug("entry_map[meta][\"redirect_from\"]: #{inspect entry_map[:meta]["redirect_from"]}")
@@ -50,9 +43,8 @@ defmodule Clutterstack do
     Logger.debug("checking on value of redirect_from before cond: #{inspect redirects}")
     new_meta = cond do
       redirects != nil ->
-        Logger.info("found a redirect: #{redirects}")
         path = get_in(entry_map, [:path])
-        Logger.info("new path: #{path}")
+        Logger.debug("Found a redirect from #{redirects} to #{path}.")
         # For every old path, store an entry in the redirects table
         for redirect_from <- redirects do
           Entries.upsert_redirect!(%{

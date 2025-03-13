@@ -79,6 +79,7 @@ defmodule ClutterstackWeb.EntryHTML do
   attr :volubility, :string, default: "voluble", doc: "true when checked"
   attr :path, :string
   attr :has_terse_version, :boolean, default: false
+  attr :page, :string
   def particle_header(assigns) do
     ~H"""
     <header class="can-content mb-6">

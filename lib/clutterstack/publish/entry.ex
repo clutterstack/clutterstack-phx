@@ -5,7 +5,7 @@ defmodule Clutterstack.Publish.Entry do
   defstruct [:title, :path, :section, :date, :kind, :body, :meta]
 
   def build(filename, attrs, body) do
-    # IO.inspect(:logger.get_config().primary.level, label: "Inside Clutterstack.Publish.Entry, the logger level is set to ")
+    IO.inspect(:logger.get_config().primary.level, label: "Inside Clutterstack.Publish.Entry, the logger level is set to ")
     Logger.debug("Clutterstack.Publish.Entry: #{filename}")
     Logger.debug("attrs passed to build() in Clutterstack.Publish.Entry: #{inspect attrs}")
     path = Path.rootname(filename)

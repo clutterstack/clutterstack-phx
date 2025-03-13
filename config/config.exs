@@ -55,6 +55,11 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+# Try to get rid of mysterious debug-level logging in Clutterstack.Publish.Entry
+# Doesn't work
+# I don't know what's setting it to `:debug`
+config :logger, Clutterstack.Publish.Entry, level: :info
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
