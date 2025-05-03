@@ -1,6 +1,7 @@
 .gitignore
 .tool-versions
 *.conf
+fly_cities.txt
 
 # Fly.io
 fly.*
