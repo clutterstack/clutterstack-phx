@@ -57,7 +57,9 @@ config :clutterstack, ClutterstackWeb.Endpoint,
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/clutterstack_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/clutterstack_web/(controllers|live|components)/.*(ex|heex)$",
+       # Build when I save a content file
+      ~r"markdown/.*\.(md|markdown)$"
     ]
   ]
 

@@ -15,6 +15,7 @@ defmodule Clutterstack.Application do
         skip: skip_migrations?()},
       # {DNSCluster, query: Application.get_env(:clutterstack, :dns_cluster_query) || :ignore},
       Clutterstack.RedirectTable,
+      {Clutterstack.MarkdownWatcher, []}, # TODO: this should run only in dev right?
       {Phoenix.PubSub, name: Clutterstack.PubSub},
       # Start a worker by calling: Clutterstack.Worker.start_link(arg)
       # {Clutterstack.Worker, arg},

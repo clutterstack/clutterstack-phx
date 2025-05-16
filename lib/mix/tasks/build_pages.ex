@@ -15,6 +15,7 @@ defmodule Mix.Tasks.BuildPages do
         IO.puts "Logger level changed to: #{level}"
         :ignore
       end, nil})
+    Logger.debug("BuildPages.run() called")
     things_started? = [:telemetry, :ecto]
     |> Enum.map(&Application.ensure_all_started/1)
     |> Enum.all?(&(elem(&1, 0) == :ok))

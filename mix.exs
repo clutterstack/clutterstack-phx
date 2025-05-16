@@ -67,6 +67,7 @@ defmodule Clutterstack.MixProject do
       {:yaml_elixir, "~> 2.11"},
       {:sitemapper, "~> 0.8"},
       {:xml_builder, "~> 2.1"},
+      {:file_system, "~> 1.0", only: :dev}
     ]
   end
 

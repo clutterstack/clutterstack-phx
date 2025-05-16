@@ -120,20 +120,20 @@ defmodule Clutterstack.Entries do
     end
   end
 
-  def upsert_entry!(attrs \\ %{}) do
+  def upsert_entry(attrs \\ %{}) do
     # IO.inspect(attrs, label: "trying to upsert! attrs:")
     %Entry{}
     |> Entry.changeset(attrs)
     # |> IO.inspect()
-    |> Repo.insert!(on_conflict: :replace_all)
+    |> Repo.insert(on_conflict: :replace_all)
   end
 
-  def upsert_redirect!(attrs \\ %{}) do
+  def upsert_redirect(attrs \\ %{}) do
     # IO.inspect(attrs, label: "trying to upsert! attrs:")
     %Redirect{}
     |> Redirect.changeset(attrs)
     # |> IO.inspect(label: "inside upsert_redirect!()")
-    |> Repo.insert!(on_conflict: :replace_all)
+    |> Repo.insert(on_conflict: :replace_all)
   end
 
   def read_redirects() do
