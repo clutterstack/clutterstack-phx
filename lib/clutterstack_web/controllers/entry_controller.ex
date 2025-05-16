@@ -4,7 +4,7 @@ defmodule ClutterstackWeb.EntryController do
   alias Clutterstack.Entries
   alias Clutterstack.Entries.Entry
 
-  def home(conn, _params) do
+    def home(conn, _params) do
     latest_all = Entries.latest_entries(5) |> Enum.sort_by(&(&1.date), :desc)
     page = Entries.latest_posts(1) |> List.first()
 
@@ -25,6 +25,7 @@ defmodule ClutterstackWeb.EntryController do
         render(conn, :home, page: page, page_title: "Home", items: latest_all)
     end
   end
+
   def posts(conn, _params) do
     post_list = Entries.list_by_kind("post") |> Enum.sort_by(&(&1.date), :desc) # |> IO.inspect(label: "list by kind: ")
     render(conn, :entry_links, items: post_list, page_title: "Posts")
