@@ -47,7 +47,7 @@ defmodule Clutterstack do
         Logger.debug("Found a redirect from #{redirects} to #{path}.")
         # For every old path, store an entry in the redirects table
         for redirect_from <- redirects do
-          Entries.upsert_redirect!(%{
+          Entries.upsert_redirect(%{
             redirect_from: redirect_from,
             new_path: path
           })
@@ -60,7 +60,7 @@ defmodule Clutterstack do
     end
     json_meta = Jason.encode!(new_meta)
     new_map = entry_map |> Map.replace(:meta, json_meta)
-    stored_entry = Entries.upsert_entry!(new_map)
+    stored_entry = Entries.upsert_entry(new_map)
     {:ok, stored_entry}
   end
 

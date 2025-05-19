@@ -1,5 +1,8 @@
 import Config
 
+config :clutterstack,
+  md_watcher_enabled: false
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used

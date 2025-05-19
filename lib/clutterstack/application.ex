@@ -15,13 +15,12 @@ defmodule Clutterstack.Application do
         skip: skip_migrations?()},
       # {DNSCluster, query: Application.get_env(:clutterstack, :dns_cluster_query) || :ignore},
       Clutterstack.RedirectTable,
-      {Clutterstack.MarkdownWatcher, []}, # TODO: this should run only in dev right?
       {Phoenix.PubSub, name: Clutterstack.PubSub},
       # Start a worker by calling: Clutterstack.Worker.start_link(arg)
       # {Clutterstack.Worker, arg},
       # Start to serve requests, typically the last entry
       ClutterstackWeb.Endpoint
-    ]
+    ] ++ dev_children?()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -35,6 +34,13 @@ defmodule Clutterstack.Application do
   def config_change(changed, _new, removed) do
     ClutterstackWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  def dev_children?() do
+    case Application.get_env(:clutterstack, :md_watcher_enabled) do
+      true -> [{Clutterstack.MarkdownWatcher, []}]
+      false -> []
+    end
   end
 
   defp skip_migrations?() do

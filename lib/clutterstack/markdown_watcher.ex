@@ -7,15 +7,11 @@ defmodule Clutterstack.MarkdownWatcher do
   end
 
   def init(_args) do
-    if Mix.env() == :dev do
       # Start watching the markdown directory
       {:ok, watcher_pid} = FileSystem.start_link(dirs: ["markdown"])
       FileSystem.subscribe(watcher_pid)
       Logger.info("Markdown watcher started, monitoring markdown/ directory")
       {:ok, %{watcher_pid: watcher_pid}}
-    else
-      {:ok, %{}}
-    end
   end
 
   def handle_info({:file_event, watcher_pid, {path, events}}, %{watcher_pid: watcher_pid} = state) do

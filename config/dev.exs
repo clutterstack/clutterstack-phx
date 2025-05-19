@@ -64,7 +64,9 @@ config :clutterstack, ClutterstackWeb.Endpoint,
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :clutterstack, dev_routes: true
+config :clutterstack,
+  dev_routes: true,
+  md_watcher_enabled: true
 
 # Do not include metadata in development logs
 config :logger, :console, format: "$time [$level] $message\n", level: :info
