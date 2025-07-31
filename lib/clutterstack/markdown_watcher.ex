@@ -14,53 +14,50 @@ defmodule Clutterstack.MarkdownWatcher do
       {:ok, %{watcher_pid: watcher_pid}}
   end
 
-  def handle_info({:file_event, watcher_pid, {path, events}}, %{watcher_pid: watcher_pid} = state) do
-    if String.ends_with?(path, [".md", ".markdown"]) do
-      Logger.info("Markdown file changed: #{path} (events: #{inspect(events)})")
+def handle_info({:file_event, watcher_pid, {path, events}}, %{watcher_pid: watcher_pid} = state) do
+  if String.ends_with?(path, [".md", ".markdown"]) do
+    Logger.info("Markdown file changed: #{path} (events: #{inspect(events)})")
 
-      Task.start(fn ->
-        try do
-          Logger.info("Starting markdown rebuild...")
+    try do
+      Logger.info("Starting markdown rebuild...")
 
-          # Check if repo is available
-          case Ecto.Repo.all_running() do
-            [] -> Logger.error("No Ecto repos are running!")
-            repos -> Logger.info("Running repos: #{inspect(repos)}")
-          end
+      # Check if repo is available
+      case Ecto.Repo.all_running() do
+        [] -> Logger.error("No Ecto repos are running!")
+        repos -> Logger.info("Running repos: #{inspect(repos)}")
+      end
 
-          # Run build_pages and check the result
-          result = Clutterstack.build_pages()
-          Logger.info("build_pages result: #{inspect(result)}")
+      # Force recompilation of the Publish module to refresh @entries
+      Logger.info("Recompiling Clutterstack.Publish module...")
+      IEx.Helpers.recompile()
 
-          # Check if any entries were created/updated
-          recent_entries = Clutterstack.Entries.latest_entries(1)
-          if recent_entries != [] do
-            latest = List.first(recent_entries)
-            Logger.info("Most recent entry: #{latest.path} updated at #{latest.updated_at}")
-          else
-            Logger.warning("No entries found in database after rebuild")
-          end
+      # Now run build_pages with fresh content
+      result = Clutterstack.build_pages()
+      Logger.info("build_pages result: #{inspect(result)}")
 
-          Clutterstack.Atomfeed.generate_atom_feed()
-          Clutterstack.Sitemapper.generate_sitemap()
-          Logger.info("Markdown rebuild completed successfully")
+      recent_entries = Clutterstack.Entries.latest_entries(1)
+      if recent_entries != [] do
+        latest = List.first(recent_entries)
+        Logger.info("Most recent entry: #{latest.path} updated at #{latest.updated_at}")
+      else
+        Logger.warning("No entries found in database after rebuild")
+      end
 
-          # if Code.ensure_loaded?(Phoenix.LiveReloader) do
-          #   Phoenix.LiveReloader.trigger_event(:live_reload, %{
-          #     asset_type: :eex,
-          #     path: path
-          #   })
-          # end
-        rescue
-          e ->
-            Logger.error("Error during markdown rebuild: #{inspect(e)}")
-            Logger.error(Exception.format(:error, e, __STACKTRACE__))
-        end
-      end)
+      Clutterstack.Atomfeed.generate_atom_feed()
+      Clutterstack.Sitemapper.generate_sitemap()
+      Logger.info("Markdown rebuild completed successfully")
+
+      # Phoenix LiveReloader should automatically detect the recompilation and refresh
+
+    rescue
+      e ->
+        Logger.error("Error during markdown rebuild: #{inspect(e)}")
+        Logger.error(Exception.format(:error, e, __STACKTRACE__))
     end
-
-    {:noreply, state}
   end
+
+  {:noreply, state}
+end
 
   def handle_info({:file_event, watcher_pid, :stop}, %{watcher_pid: watcher_pid} = state) do
     Logger.warning("Markdown filesystem watcher stopped")
