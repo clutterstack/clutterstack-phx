@@ -17,7 +17,7 @@ defmodule ClutterstackWeb.ClutterstackComponents do
       <ul>
         <%= for item <- @items do %>
           <li class="mt-2 mb-2 leading-6">
-            <span class="text-sm text-zinc-600 dark:text-zinc-400"><%= item.date %></span>
+            <span class="text-sm text-zinc-600 dark:text-zinc-300"><%= item.date %></span>
             <span class="text-base text-navy-900">
               <.link href={"/" <> URI.decode(item.path)} >
               <%= item.title %></.link>
@@ -44,8 +44,8 @@ defmodule ClutterstackWeb.ClutterstackComponents do
       <ul>
         <%= for item <- @items do %>
           <li class="mt-2 mb-2 leading-6">
-            <span class="text-sm text-zinc-600 dark:text-zinc-400"><%= item.date %></span>
-            <span class="text-base text-navy-900">
+            <span class="text-sm text-zinc-600 dark:text-zinc-300"><%= item.date %></span>
+            <span class="text-base">
               <.link href={"/" <> URI.decode(item.path)} >
               <%= item.title %></.link>
             </span>
@@ -79,7 +79,7 @@ defmodule ClutterstackWeb.ClutterstackComponents do
   attr :text, :string, default: nil
   def badge(assigns) do
     ~H"""
-    <span class="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200 rounded-lg text-sm px-2">
+    <span class="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-300 rounded-lg text-sm px-2">
       <%= @text %>
     </span>
     """
@@ -101,7 +101,7 @@ defmodule ClutterstackWeb.ClutterstackComponents do
         <h2>
           <%= render_slot(@inner_block) %>
         </h2>
-        <p :if={@subtitle != []} class="-mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+        <p :if={@subtitle != []} class="-mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
           <%= render_slot(@subtitle) %>
         </p>
       </div>

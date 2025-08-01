@@ -11,7 +11,7 @@
 /* Set the base font size a little bigger */
 body {
     font-size: 110%;  
-    @apply bg-amber-50/20 dark:bg-slate-900 px-6 mx-auto text-slate-900 dark:text-slate-300;
+    @apply bg-amber-50/20 dark:bg-slate-800 px-6 mx-auto text-slate-900 dark:text-slate-300 leading-7 dark:font-light;
     max-width: calc(42rem + 2.5rem + 300px); /* content + gap + sidebar */
 }
 
@@ -40,23 +40,23 @@ section.can-content {
 }
 
 .can-content img {
-    @apply mx-auto block;
+    @apply mx-auto block py-2;
 }
 
-.can-content .notice-important {
+.can-content .callout, .can-content .notice-important {
     @apply border rounded-lg border-slate-600 dark:border-slate-400 bg-sky-50/40 dark:bg-slate-800/60 mt-4 mb-8 px-4 pt-4;
 }
 
-.can-content .callout {
+/* .can-content .callout {
     @apply text-2xl mt-4 mb-8 text-slate-600 dark:text-slate-300;
-}
+} */
 
 .can-content .card {
     @apply mt-16 bg-violet-100 dark:bg-violet-900/40;
 }
 
 .can-content .sidenote {
-    @apply mx-6 pt-2 md:mx-0 border-t border-t-rose-500 dark:border-t-rose-400 text-sm;
+    @apply mx-6 pt-2 md:mx-0 border-t border-t-rose-500 text-sm;
     grid-column: 2/3;
     grid-row: auto / span 6;
 }
@@ -94,20 +94,20 @@ section.can-content {
 }
 
 h1 {
-    @apply mb-6 text-2xl md:text-3xl font-semibold ;
+    @apply mb-6 text-2xl md:text-3xl font-semibold;
 }
 
 h1, h1 code.inline {
-    @apply text-zinc-800 dark:text-zinc-200;
+    @apply text-zinc-800 dark:text-zinc-300;
 }
 
 h2 {
-    @apply mb-6 mt-4 border-b  dark:border-zinc-700 text-xl md:text-[1.65rem] font-semibold ;
+    @apply mb-6 mt-4 border-b  dark:border-zinc-700 text-xl md:text-[1.65rem] font-semibold dark:font-normal;
 }
 
 
 h2, h2 code.inline {
-    @apply text-zinc-800  dark:border-zinc-700 dark:text-zinc-200;
+    @apply text-zinc-800  dark:border-zinc-700 dark:text-zinc-300;
 }
 
 h3 {
@@ -116,7 +116,7 @@ h3 {
 
 
 h3, h3 code.inline {
-    @apply text-zinc-800 dark:text-zinc-200;
+    @apply text-zinc-800 dark:text-zinc-300;
 }
 h4 {
   @apply mt-2 mb-4 border-b;
@@ -124,7 +124,7 @@ h4 {
 }
 
 h4, h4 code.inline {
-    @apply md:text-lg text-zinc-800 dark:text-zinc-200 font-semibold;
+    @apply md:text-lg text-zinc-800 dark:text-zinc-300 font-semibold;
 }
 
 p {
@@ -132,7 +132,7 @@ p {
 }
 
 blockquote {
-    @apply border-l-4 border-l-rose-800 dark:border-l-rose-400 pl-4 mb-4 italic;
+    @apply border-l border-l-rose-800 dark:border-l-rose-500 pl-4 mb-4 italic;
 }
 
 /* section.can-content code {
@@ -153,7 +153,7 @@ a code.inline {
 }
 
 pre {
-    @apply px-4 py-2 bg-sky-50 dark:bg-slate-800 text-[0.85rem] border border-slate-200 dark:border-slate-600 rounded-lg mb-6 overflow-x-auto;
+    @apply px-4 py-2 bg-sky-50 dark:bg-slate-700 text-[0.85rem] border border-slate-200 dark:border-slate-500 rounded-lg mb-6 overflow-x-auto;
 }
 
 .card {
