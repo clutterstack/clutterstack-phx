@@ -11,7 +11,8 @@
 /* Set the base font size a little bigger */
 body {
     font-size: 110%;  
-    @apply bg-amber-50/20 px-6 mx-auto max-w-6xl text-slate-900;
+    @apply bg-amber-50/20 px-6 mx-auto text-slate-900;
+    max-width: calc(42rem + 2.5rem + 300px); /* content + gap + sidebar */
 }
 
 #main-content {
