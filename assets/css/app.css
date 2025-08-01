@@ -56,7 +56,7 @@ section.can-content {
 }
 
 .can-content .sidenote {
-    @apply mx-6 my-6 md:my-0 pt-2 md:mx-0 border-t border-t-rose-500 text-sm;
+    @apply mx-6 my-6 md:my-0 pt-2 md:mx-0 border-t border-t-rose-800 text-sm;
     grid-column: 2/3;
     grid-row: auto / span 6;
 }
@@ -132,7 +132,7 @@ p {
 }
 
 blockquote {
-    @apply border-l border-l-rose-800 dark:border-l-rose-500 pl-4 mb-4 italic;
+    @apply border-l border-l-rose-800 pl-4 mb-4 italic;
 }
 
 /* section.can-content code {
@@ -161,7 +161,7 @@ pre {
 }
 
 a {
-    @apply text-sky-700 dark:text-sky-300 hover:underline decoration-dashed;
+    @apply text-sky-700 dark:text-sky-200 hover:underline decoration-dashed;
 }
 
 .can-content ul, ol {
