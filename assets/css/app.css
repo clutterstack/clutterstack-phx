@@ -11,14 +11,14 @@
 /* Set the base font size a little bigger */
 body {
     font-size: 110%;  
-    @apply bg-amber-50/20 px-6 mx-auto text-slate-900;
+    @apply bg-amber-50/20 dark:bg-slate-900 px-6 mx-auto text-slate-900 dark:text-slate-300;
     max-width: calc(42rem + 2.5rem + 300px); /* content + gap + sidebar */
 }
 
 #main-content {
     @apply py-2 md:py-6;
 }
-header.can-content {
+.can-content header {
     @apply mb-6;
 }
 
@@ -44,19 +44,19 @@ section.can-content {
 }
 
 .can-content .notice-important {
-    @apply border rounded-lg border-slate-600 bg-sky-50/40 mt-4 mb-8 px-4 pt-4;
+    @apply border rounded-lg border-slate-600 dark:border-slate-400 bg-sky-50/40 dark:bg-slate-800/60 mt-4 mb-8 px-4 pt-4;
 }
 
 .can-content .callout {
-    @apply text-2xl mt-4 mb-8 text-slate-600;
+    @apply text-2xl mt-4 mb-8 text-slate-600 dark:text-slate-300;
 }
 
 .can-content .card {
-    @apply mt-16 bg-violet-100;
+    @apply mt-16 bg-violet-100 dark:bg-violet-900/40;
 }
 
 .can-content .sidenote {
-    @apply mx-6 pt-2 md:mx-0 border-t border-t-rose-500 text-sm;
+    @apply mx-6 pt-2 md:mx-0 border-t border-t-rose-500 dark:border-t-rose-400 text-sm;
     grid-column: 2/3;
     grid-row: auto / span 6;
 }
@@ -98,25 +98,25 @@ h1 {
 }
 
 h1, h1 code.inline {
-    @apply text-zinc-800;
+    @apply text-zinc-800 dark:text-zinc-200;
 }
 
 h2 {
-    @apply mb-6 mt-4 border-b text-xl md:text-[1.65rem] font-semibold ;
+    @apply mb-6 mt-4 border-b  dark:border-zinc-700 text-xl md:text-[1.65rem] font-semibold ;
 }
 
 
 h2, h2 code.inline {
-    @apply text-zinc-800;
+    @apply text-zinc-800  dark:border-zinc-700 dark:text-zinc-200;
 }
 
 h3 {
-    @apply mt-2 mb-4 border-b text-lg md:text-[1.35rem] font-semibold ;
+    @apply mt-2 mb-4 border-b  dark:border-zinc-700 text-lg md:text-[1.35rem] font-semibold ;
 }
 
 
 h3, h3 code.inline {
-    @apply text-zinc-800;
+    @apply text-zinc-800 dark:text-zinc-200;
 }
 h4 {
   @apply mt-2 mb-4 border-b;
@@ -124,7 +124,7 @@ h4 {
 }
 
 h4, h4 code.inline {
-    @apply md:text-lg text-zinc-800 font-semibold;
+    @apply md:text-lg text-zinc-800 dark:text-zinc-200 font-semibold;
 }
 
 p {
@@ -132,7 +132,7 @@ p {
 }
 
 blockquote {
-    @apply border-l-4 border-l-rose-800 pl-4 mb-4 italic;
+    @apply border-l-4 border-l-rose-800 dark:border-l-rose-400 pl-4 mb-4 italic;
 }
 
 /* section.can-content code {
@@ -145,23 +145,23 @@ code.output {
 }
 
 code.inline {
-    @apply text-rose-800 text-[0.95em]/[1.2] inline-block mx-1 border-b bg-sky-50/40;
+    @apply text-rose-800 dark:text-rose-300 text-[0.95em]/[1.2] inline-block mx-1 border-b border-dashed border-rose-800 bg-sky-50/40 dark:bg-slate-800/60;
 }
 
 a code.inline {
-    @apply text-sky-700 border-sky-700 border-dashed;
+    @apply text-sky-700 dark:text-sky-300 border-sky-700 dark:border-sky-300 border-dashed;
 }
 
 pre {
-    @apply px-4 py-2 bg-sky-50 text-[0.85rem] border border-slate-200 rounded-lg mb-6 overflow-x-auto;
+    @apply px-4 py-2 bg-sky-50 dark:bg-slate-800 text-[0.85rem] border border-slate-200 dark:border-slate-600 rounded-lg mb-6 overflow-x-auto;
 }
 
 .card {
-    @apply p-4 bg-blue-100 text-blue-800 rounded-lg;
+    @apply p-4 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 rounded-lg;
 }
 
 a {
-    @apply text-sky-700 hover:underline decoration-dashed;
+    @apply text-sky-700 dark:text-sky-300 hover:underline decoration-dashed;
 }
 
 .can-content ul, ol {
@@ -203,7 +203,7 @@ dl p, dl pre {
 }
 
 dt p, dt code.inline{
-    @apply font-semibold text-slate-900 border-none;
+    @apply font-semibold text-slate-900 dark:text-slate-100 border-none;
 }
 
 dd {

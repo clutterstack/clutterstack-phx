@@ -11,6 +11,7 @@ module.exports = {
     "../lib/clutterstack_web.ex",
     "../lib/clutterstack_web/**/*.*ex"
   ],
+  darkMode: 'class',
   safelist: [
     'grid',
     'grid-cols-subgrid',

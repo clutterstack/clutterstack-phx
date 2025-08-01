@@ -38,6 +38,47 @@ highlighter.highlightNotMakeup();
 // connect if there are any LiveViews on the page
 liveSocket.connect()
 
+// Dark mode toggle functionality
+function initTheme() {
+  const theme = localStorage.getItem('theme') || 
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+  
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+}
+
+function toggleTheme() {
+  const isDark = document.documentElement.classList.contains('dark')
+  if (isDark) {
+    document.documentElement.classList.remove('dark')
+    localStorage.setItem('theme', 'light')
+  } else {
+    document.documentElement.classList.add('dark')
+    localStorage.setItem('theme', 'dark')
+  }
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme()
+  
+  const toggleButton = document.getElementById('theme-toggle')
+  if (toggleButton) {
+    toggleButton.addEventListener('click', toggleTheme)
+  }
+})
+
+// Reinitialize on LiveView navigation
+window.addEventListener('phx:page-loading-stop', () => {
+  const toggleButton = document.getElementById('theme-toggle')
+  if (toggleButton) {
+    toggleButton.addEventListener('click', toggleTheme)
+  }
+})
+
 // expose liveSocket on window for web console debug logs and latency simulation:
 // >> liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session

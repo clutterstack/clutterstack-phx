@@ -46,7 +46,7 @@ defmodule ClutterstackWeb.EntryHTML do
     ~H"""
     <header>
       <h1 class="col-span-2"><%= @page.title %></h1>
-      <div class="-mt-4 text-sm leading-6 text-zinc-600 flex justify-between items-end">
+      <div class="-mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400 flex justify-between items-end">
         <div>
           <%= if @page.date do %>
             <%= @page.date %>
@@ -87,7 +87,7 @@ defmodule ClutterstackWeb.EntryHTML do
         <.badge text={@page.section} />
       </div>
       <h1 class="col-span-full"><%= @page.title %></h1>
-      <div class="-mt-4 text-sm leading-6 text-zinc-600 flex justify-between">
+      <div class="-mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400 flex justify-between">
         <div>
           <%= if @page.date do %>
             <%= @page.date %>
