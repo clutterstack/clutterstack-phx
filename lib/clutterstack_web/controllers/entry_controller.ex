@@ -26,7 +26,7 @@ defmodule ClutterstackWeb.EntryController do
     end
   end
 
-      def oldhome(conn, _params) do
+  def oldhome(conn, _params) do
     latest_all = Entries.latest_entries(5) |> Enum.sort_by(&(&1.date), :desc)
     page = Entries.latest_posts(1) |> List.first()
 
