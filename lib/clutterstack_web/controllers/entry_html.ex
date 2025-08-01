@@ -82,7 +82,7 @@ defmodule ClutterstackWeb.EntryHTML do
   attr :page, :string
   def particle_header(assigns) do
     ~H"""
-    <header class="can-content mb-6">
+    <header class="mb-6">
       <div>
         <.badge text={@page.section} />
       </div>
