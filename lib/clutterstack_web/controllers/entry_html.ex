@@ -44,7 +44,7 @@ defmodule ClutterstackWeb.EntryHTML do
   attr :has_terse_version, :boolean, default: false
   def post_header(assigns) do
     ~H"""
-    <header class="can-content">
+    <header>
       <h1 class="col-span-2"><%= @page.title %></h1>
       <div class="-mt-4 text-sm leading-6 text-zinc-600 flex justify-between items-end">
         <div>

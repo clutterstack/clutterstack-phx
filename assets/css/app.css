@@ -11,7 +11,7 @@
 /* Set the base font size a little bigger */
 body {
     font-size: 110%;  
-    @apply bg-amber-50/20 px-4 mx-auto max-w-6xl;
+    @apply bg-amber-50/20 px-6 mx-auto max-w-6xl text-slate-900;
 }
 
 #main-content {
@@ -28,7 +28,7 @@ section.can-content {
       linear-gradient(#ddd 0.5px, transparent 0.5px),
       linear-gradient(90deg, #ddd 0.5px, transparent 0.5px);
     background-size: 80px 80px, 80px 80px, 8px 8px, 8px 8px; */
-   @apply justify-center md:grid grid-cols-[minmax(10rem,_42rem)_240px] lg:grid-cols-[42rem_minmax(240px,_300px)] gap-x-10 auto-rows-min;
+   @apply md:grid grid-cols-[minmax(10rem,_42rem)_240px] lg:grid-cols-[42rem_minmax(240px,_300px)] gap-x-10 auto-rows-min;
    /* grid-template-columns: minmax(10em, 60em) 200px; */
    /* grid-cols-[minmax(20rem,_1fr)_200px] */
 }
@@ -38,8 +38,16 @@ section.can-content {
     /* grid-column: 1/2; a default */
 }
 
-.can-content .callout, .can-content .notice-important {
+.can-content img {
+    @apply mx-auto block;
+}
+
+.can-content .notice-important {
     @apply border rounded-lg border-slate-600 bg-sky-50/40 mt-4 mb-8 px-4 pt-4;
+}
+
+.can-content .callout {
+    @apply text-2xl mt-4 mb-8 text-slate-600;
 }
 
 .can-content .card {
@@ -89,7 +97,7 @@ h1 {
 }
 
 h1, h1 code.inline {
-    @applytext-zinc-800;
+    @apply text-zinc-800;
 }
 
 h2 {
@@ -119,11 +127,11 @@ h4, h4 code.inline {
 }
 
 p {
-    @apply text-slate-900 mb-4;
+    @apply mb-4;
 }
 
 blockquote {
-    @apply border-l-8 border-l-rose-800 pl-4 mb-6 italic;
+    @apply border-l-4 border-l-rose-800 pl-4 mb-4 italic;
 }
 
 /* section.can-content code {
