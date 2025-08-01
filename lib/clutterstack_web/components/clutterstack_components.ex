@@ -47,10 +47,10 @@ defmodule ClutterstackWeb.ClutterstackComponents do
             <span class="text-sm text-zinc-600"><%= item.date %></span>
             <span class="text-base text-navy-900">
               <.link href={"/" <> URI.decode(item.path)} >
-              <%= if @markparticles do %>
-                <%= if item.kind == "particle" do %>(Particle) <% end %>
-              <% end %>
               <%= item.title %></.link>
+            </span>
+            <span :if={@markparticles and item.kind == "particle"}>
+              <.badge text="particle"/>
             </span>
           </li>
         <% end %>
