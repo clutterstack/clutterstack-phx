@@ -5,6 +5,28 @@ defmodule ClutterstackWeb.EntryController do
   alias Clutterstack.Entries.Entry
 
     def home(conn, _params) do
+    latest_all = Entries.latest_entries(99) |> Enum.sort_by(&(&1.date), :desc)
+    page = Entries.latest_posts(1) |> List.first()
+
+    case page do
+      nil ->
+        # Provide all expected fields with default values
+        render(conn, :home,
+          page: %{
+            title: "Welcome",
+            body: "No posts yet.",
+            date: nil,
+            kind: "post"
+          },
+          page_title: "Home",
+          items: latest_all
+        )
+      page ->
+        render(conn, :home, page: page, page_title: "Home", items: latest_all)
+    end
+  end
+
+      def oldhome(conn, _params) do
     latest_all = Entries.latest_entries(5) |> Enum.sort_by(&(&1.date), :desc)
     page = Entries.latest_posts(1) |> List.first()
 
