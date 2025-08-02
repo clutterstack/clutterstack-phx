@@ -1,14 +1,11 @@
-defmodule Clutterstack.Publish.Converter do
+if Code.ensure_loaded?(Earmark) and Code.ensure_loaded?(NimblePublisher) do
+  defmodule Clutterstack.Publish.Converter do
 
   require Logger
   # import Clutterstack.CustomConverters.Sidenotes
   import Clutterstack.CustomConverters.Assorted
 
-  if Code.ensure_loaded?(NimblePublisher.Highlighter) do
-    defdelegate highlight(html, options \\ []), to: NimblePublisher.Highlighter
-  else
-    def highlight(html, _options \\ []), do: html
-  end
+  defdelegate highlight(html, options \\ []), to: NimblePublisher.Highlighter
 
   # Copy some convert functions from Nimble Publisher and go from there
   # https://github.com/dashbitco/nimble_publisher/blob/master/lib/nimble_publisher.ex
@@ -17,11 +14,7 @@ defmodule Clutterstack.Publish.Converter do
     if Path.extname(filepath) in [".md", ".markdown"] do
       Logger.debug("Converting Markdown file")
       # IO.inspect(Path.extname, label: "extname is")
-      earmark_opts = if Code.ensure_loaded?(Earmark.Options) do
-        Keyword.get(opts, :earmark_options, struct(Earmark.Options))
-      else
-        %{}
-      end
+      earmark_opts = Keyword.get(opts, :earmark_options, %Earmark.Options{})
       body_list = splitter(body) #|> IO.inspect(label: "splitter(body)")
       body_out = case body_list do
         [head|tail] -> Enum.map([head|tail], fn item -> convert_item(item, earmark_opts) end)
@@ -143,11 +136,7 @@ defmodule Clutterstack.Publish.Converter do
               args: args
             })
           end)
-      _ ->  if Code.ensure_loaded?(Earmark) do
-        Earmark.as_html!(inputstr, earmark_opts)
-      else
-        inputstr
-      end
+      _ ->  Earmark.as_html!(inputstr, earmark_opts)
     end
   end
 
@@ -181,4 +170,10 @@ defmodule Clutterstack.Publish.Converter do
     end
   end
 
+  end
+else
+  defmodule Clutterstack.Publish.Converter do
+    def highlight(html, _options \\ []), do: html
+    def convert(_filepath, body, _attrs, _opts), do: body
+  end
 end

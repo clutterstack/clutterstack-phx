@@ -1,4 +1,5 @@
-defmodule Clutterstack.CustomConverters.Assorted do
+if Code.ensure_loaded?(Earmark) do
+  defmodule Clutterstack.CustomConverters.Assorted do
   require Logger
     # ======= Processors for the special classes or whatever. ==========
   #
@@ -76,7 +77,7 @@ defmodule Clutterstack.CustomConverters.Assorted do
         ""
       end
     end)
-    processed_summary =  Earmark.as_html!(summary, earmark_opts)
+    processed_summary = Earmark.as_html!(summary, earmark_opts)
     # Extract content from <p> tags
     |> Floki.find("p") |> Floki.text()
     # IO.inspect(summary, label = "summary")
@@ -134,4 +135,11 @@ defmodule Clutterstack.CustomConverters.Assorted do
     contents
   end
 
+  end
+else
+  defmodule Clutterstack.CustomConverters.Assorted do
+    def convert_custom(_, contents, _earmark_opts, _opts) do
+      contents
+    end
+  end
 end
