@@ -57,5 +57,6 @@ defmodule ClutterstackWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug PlausibleProxy.Plug, event_callback: nil
   plug ClutterstackWeb.Router
 end

@@ -5,7 +5,7 @@ defmodule Clutterstack.MixProject do
     [
       app: :clutterstack,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -35,7 +35,7 @@ defmodule Clutterstack.MixProject do
       {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.5"},
       #{:earmark, "~>1.4.47"},
-      {:earmark, git: "https://github.com/clutterstack/earmark.git", branch: "dl", override: true},
+      {:earmark, git: "https://github.com/clutterstack/earmark.git", branch: "dl", override: true, only: [:dev, :test], runtime: false},
       #{:earmark, path: "~/Downloads/earmark", override: true},
       {:ecto_sql, "~> 3.10"},
       {:ecto_sqlite3, ">= 0.0.0"},
@@ -60,14 +60,16 @@ defmodule Clutterstack.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:nimble_publisher, "~> 1.0"},
+      {:nimble_publisher, "~> 1.0", only: [:dev, :test], runtime: false},
       {:makeup, "~>1.2.1"},
       {:makeup_elixir, "~>1.0.1"},
       {:makeup_eex, "~>1.0.0"},
       {:yaml_elixir, "~> 2.11"},
       {:sitemapper, "~> 0.8"},
       {:xml_builder, "~> 2.1"},
-      {:file_system, "~> 1.0", only: :dev}
+      {:file_system, "~> 1.0", only: :dev},
+      {:plausible_proxy, git: "https://github.com/clutterstack/plausible_proxy", branch: "update"}
+      # {:plausible_proxy, path: "/Users/chris/Downloads/SynologyDrive/Projects/2025-08-dockyard_plausible_proxy/plausible_proxy"}
     ]
   end
 

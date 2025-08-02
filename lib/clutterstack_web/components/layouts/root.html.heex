@@ -8,10 +8,14 @@
       <%= assigns[:page_title] || "Mystery Title" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <!-- <link :if={Mix.env() !== :prod} phx-track-static rel="stylesheet" href={~p"/assets/dev.css"} /> -->
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
     <!-- <script defer data-domain="clutterstack.com" src="https://plausible.io/js/script.js"></script> -->
+    <script
+      defer
+      data-domain="{ClutterstackWeb.Endpoint.config(:url)[:host]}"
+      src="/js/plausible_script.js"
+    ></script>
   </head>
   <body>
     <!-- Credit to Taeke Reijenga for skip-to-content info: https://www.a11y-collective.com/blog/skip-to-main-content/ -->
