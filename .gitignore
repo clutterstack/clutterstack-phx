@@ -2,6 +2,7 @@
 .tool-versions
 *.conf
 fly_cities.txt
+CLAUDE.md
 
 # Fly.io
 fly.*
@@ -13,7 +14,8 @@ Dockerfile
 # Content
 /markdown/
 /markdrafts/
-/priv/static/sitemaps/
+/priv/static/sitemaps/**
+/priv/static/feed.xml
 
 # The directory Mix will write compiled artifacts to.
 /_build/
