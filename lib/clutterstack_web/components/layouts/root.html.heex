@@ -7,6 +7,32 @@
     <.live_title suffix=" · Clutterstack">
       <%= assigns[:page_title] || "Mystery Title" %>
     </.live_title>
+    
+    <%= if assigns[:seo_meta_tags] do %>
+      <!-- SEO Meta Tags -->
+      <meta name="description" content={@seo_meta_tags.description} />
+      <%= if @seo_meta_tags.canonical_url do %>
+        <link rel="canonical" href={@seo_meta_tags.canonical_url} />
+      <% end %>
+      
+      <!-- Open Graph Tags -->
+      <meta property="og:title" content={@seo_meta_tags.og_title} />
+      <meta property="og:description" content={@seo_meta_tags.og_description} />
+      <meta property="og:type" content={@seo_meta_tags.og_type} />
+      <%= if @seo_meta_tags.canonical_url do %>
+        <meta property="og:url" content={@seo_meta_tags.canonical_url} />
+      <% end %>
+      <meta property="og:site_name" content="Clutterstack" />
+      <%= for tag <- @seo_meta_tags.og_tags do %>
+        <meta property="og:article:tag" content={tag} />
+      <% end %>
+      
+      <!-- Twitter Card Tags -->
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content={@seo_meta_tags.twitter_title} />
+      <meta name="twitter:description" content={@seo_meta_tags.twitter_description} />
+    <% end %>
+    
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>

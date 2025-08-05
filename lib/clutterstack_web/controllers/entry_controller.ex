@@ -3,6 +3,7 @@ defmodule ClutterstackWeb.EntryController do
   require Logger
   alias Clutterstack.Entries
   alias Clutterstack.Entries.Entry
+  alias ClutterstackWeb.SEO
 
     def home(conn, _params) do
     latest_all = Entries.latest_entries(99) |> Enum.sort_by(&(&1.date), :desc)
@@ -75,7 +76,19 @@ defmodule ClutterstackWeb.EntryController do
       false
     end
     Logger.info("has terse version? " <> to_string(has_terse_version))
-    render(conn, :particle, page: page, page_title: page.title, volubility: volubility, path: path, has_terse_version: has_terse_version)
+    
+    # Generate SEO meta tags
+    seo_meta_tags = SEO.build_meta_tags(page)
+    seo_meta_tags = Map.put(seo_meta_tags, :canonical_url, SEO.canonical_url(page, conn))
+    
+    render(conn, :particle, 
+      page: page, 
+      page_title: page.title, 
+      volubility: volubility, 
+      path: path, 
+      has_terse_version: has_terse_version,
+      seo_meta_tags: seo_meta_tags
+    )
   end
 
   def show_post(conn, %{"page" => page, "volubility" => volubility_list}) do
@@ -92,7 +105,19 @@ defmodule ClutterstackWeb.EntryController do
         false
       end
       Logger.info("has terse version? " <> to_string(has_terse_version))
-    render(conn, :post, page: page, page_title: page.title, volubility: volubility, path: path, has_terse_version: has_terse_version)
+    
+    # Generate SEO meta tags
+    seo_meta_tags = SEO.build_meta_tags(page)
+    seo_meta_tags = Map.put(seo_meta_tags, :canonical_url, SEO.canonical_url(page, conn))
+    
+    render(conn, :post, 
+      page: page, 
+      page_title: page.title, 
+      volubility: volubility, 
+      path: path, 
+      has_terse_version: has_terse_version,
+      seo_meta_tags: seo_meta_tags
+    )
   end
 
   ##### Generated actions for generated CRUD resources #####
