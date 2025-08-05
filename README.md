@@ -1,18 +1,37 @@
 # Clutterstack
 
-To start your Phoenix server:
+A Phoenix-based blog system that generates content from Markdown files.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Writing Content
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Create Markdown files in:
+- `markdown/posts/` - Main blog articles
+- `markdown/particles/` - Shorter content, lower bar, organised by theme
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Frontmatter & SEO
 
-## Learn more
+Add keywords to your frontmatter for automatic SEO optimization:
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+```yaml
+---
+title: My Blog Post
+date: 2025-01-01
+keywords:
+  - elixir
+  - phoenix
+  - web development
+---
+```
+
+This automatically generates:
+- Meta descriptions from post content
+- Open Graph tags for social sharing
+- Twitter Card metadata
+- Canonical URLs
+- Semantic article tags for search engines
+
+## Development
+
+- `mix build_pages` - Rebuild content from Markdown files
+- `mix build_sitemap` - Generate XML sitemaps
+- File changes are automatically detected and reloaded
