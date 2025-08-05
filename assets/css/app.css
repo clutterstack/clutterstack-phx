@@ -12,7 +12,8 @@
 body {
     font-size: 110%;  
     @apply bg-amber-50/20 dark:bg-slate-800 px-6 mx-auto text-slate-900 dark:text-slate-300 leading-7 dark:font-light;
-    max-width: calc(42rem + 2.5rem + 300px); /* content + gap + sidebar */
+    /*  max-width: calc(42rem + 6rem + 360px);*/ /* content + gap + sidebar */
+    max-width: 60em; 
 }
 
 #main-content {
@@ -29,7 +30,7 @@ section.can-content {
       linear-gradient(#ddd 0.5px, transparent 0.5px),
       linear-gradient(90deg, #ddd 0.5px, transparent 0.5px);
     background-size: 80px 80px, 80px 80px, 8px 8px, 8px 8px; */
-   @apply md:grid grid-cols-[minmax(10rem,_42rem)_240px] lg:grid-cols-[42rem_minmax(240px,_300px)] gap-x-10 auto-rows-min;
+   @apply md:grid grid-cols-[minmax(10rem,_42rem)_240px] lg:grid-cols-[42rem_minmax(240px,_360px)] gap-x-10 auto-rows-min;
    /* grid-template-columns: minmax(10em, 60em) 200px; */
    /* grid-cols-[minmax(20rem,_1fr)_200px] */
 }
