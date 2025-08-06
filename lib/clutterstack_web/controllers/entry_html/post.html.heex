@@ -1,5 +1,6 @@
-<section class={["can-content", @volubility == "terse" && "hide-voluble"]} >
+<section class={["can-content", "flex flex-col md:grid", @volubility == "terse" && "hide-voluble"]} >
     <.post_header page={@page} volubility={@volubility} path={@path} has_terse_version={@has_terse_version} />
+    <.post_navigation prev_post={@prev_post} next_post={@next_post} />
     <%= raw @page.body %>
 </section>
 

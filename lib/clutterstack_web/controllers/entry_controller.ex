@@ -106,6 +106,9 @@ defmodule ClutterstackWeb.EntryController do
       end
       Logger.info("has terse version? " <> to_string(has_terse_version))
     
+    # Get adjacent posts for navigation
+    {prev_post, next_post} = Entries.get_adjacent_posts(path)
+    
     # Generate SEO meta tags
     seo_meta_tags = SEO.build_meta_tags(page)
     seo_meta_tags = Map.put(seo_meta_tags, :canonical_url, SEO.canonical_url(page, conn))
@@ -116,6 +119,8 @@ defmodule ClutterstackWeb.EntryController do
       volubility: volubility, 
       path: path, 
       has_terse_version: has_terse_version,
+      prev_post: prev_post,
+      next_post: next_post,
       seo_meta_tags: seo_meta_tags
     )
   end

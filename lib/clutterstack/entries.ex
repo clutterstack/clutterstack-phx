@@ -142,6 +142,32 @@ defmodule Clutterstack.Entries do
     Repo.all(query)
   end
 
+  @doc """
+  Returns the previous and next posts adjacent to the given post path.
+  
+  ## Examples
+  
+      iex> get_adjacent_posts("posts/some-post")
+      {%{title: "Previous Post", path: "posts/previous"}, %{title: "Next Post", path: "posts/next"}}
+      
+      iex> get_adjacent_posts("posts/first-post") 
+      {nil, %{title: "Next Post", path: "posts/next"}}
+  """
+  def get_adjacent_posts(current_path) do
+    posts = list_by_kind("post") 
+            |> Enum.sort_by(&(&1.date), :asc)
+    
+    current_index = Enum.find_index(posts, &(&1.path == current_path))
+    
+    case current_index do
+      nil -> {nil, nil}
+      index ->
+        previous_post = if index > 0, do: Enum.at(posts, index - 1), else: nil
+        next_post = if index < length(posts) - 1, do: Enum.at(posts, index + 1), else: nil
+        {previous_post, next_post}
+    end
+  end
+
   # Helper to get all redirects for an entry (Claude suggested this;
   # I don't know where to use it yet)
   def redirects_query(entry) do
