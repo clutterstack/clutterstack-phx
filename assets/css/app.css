@@ -157,7 +157,7 @@ a code.inline {
 }
 
 #main-content p a {
-  @apply text-sky-300;
+  @apply dark:text-sky-300;
 }
 
 pre {
