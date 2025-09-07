@@ -16,7 +16,7 @@ defmodule ClutterstackWeb.ClutterstackComponents do
     <section class="mb-4">
       <ul>
         <%= for item <- @items do %>
-          <li class="mt-2 mb-2 leading-6">
+          <li class="mt-2 mb-2">
             <span class="text-sm text-zinc-600 dark:text-zinc-300"><%= item.date %></span>
             <span class="text-base text-navy-900">
               <.link href={"/" <> URI.decode(item.path)} >
@@ -43,7 +43,7 @@ defmodule ClutterstackWeb.ClutterstackComponents do
     <section class="mb-4">
       <ul>
         <%= for item <- @items do %>
-          <li class="mt-2 mb-2 leading-6">
+          <li class="mt-2 mb-2">
             <span class="text-sm text-zinc-600 dark:text-zinc-300"><%= item.date %></span>
             <span class="text-base">
               <.link href={"/" <> URI.decode(item.path)} >

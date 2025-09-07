@@ -104,14 +104,13 @@ defmodule ClutterstackWeb.EntryHTML do
   attr :next_post, :map, default: nil
   def post_navigation(assigns) do
     ~H"""
-    <nav class="mb-4 md:my-0 md:mx-0  text-sm md:col-start-2 md:row-start-1 order-first md:order-none">
+    <nav class="mb-4 md:my-0 md:mx-0 text-sm md:col-start-2 md:row-start-1 order-first md:order-none">
       <div class="pt-2 flex flex-wrap gap-2 md:flex-col md:space-y-2">
         <%= if @prev_post do %>
           <% prev_page = Path.basename(@prev_post.path) %>
           <div class="flex-1 text-left md:flex-none">
             <.link
               navigate={~p"/posts/#{prev_page}"}
-              class="text-sky-700 dark:text-sky-200 hover:underline decoration-dashed"
             >
               <span class="font-bold">Prev: </span><%= @prev_post.title %>
             </.link>
@@ -122,7 +121,6 @@ defmodule ClutterstackWeb.EntryHTML do
           <div class="flex-1 text-right md:text-left md:flex-none">
             <.link
               navigate={~p"/posts/#{next_page}"}
-              class="text-sky-700 dark:text-sky-200 hover:underline decoration-dashed"
             >
               <span class="font-bold">Next: </span><%= @next_post.title %>
             </.link>
