@@ -58,15 +58,10 @@ if Code.ensure_loaded?(Earmark) and Code.ensure_loaded?(NimblePublisher) do
       [[_whole_match, _helper, _args_str, _contents]] ->
         Regex.replace(helper_comment_pattern, inputstr, fn _whole_match, _helper, args_str, contents ->
           # Logger.info("in mark_voluble: helper is #{helper}; args_str is #{args_str}")
-          {explicit_classes, remaining_args} = extract_class_from_args(args_str)
-          #remaining_args_list = remaining_args
-            # |> String.split()
-            # |> Enum.reject(&(&1 == ""))
-            # |> IO.inspect(label: "remaining_args_list")
-             # Logger.info("in mark_voluble, sending explicit_classes and remaining_args_list to arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
-            classes = "voluble" <> (if explicit_classes !== nil, do: " #{explicit_classes}", else: "")
-            # Now just add classes to the existing elements (wrapping in a div messes up my grid)
-            contents
+          {explicit_classes, _remaining_args} = extract_class_from_args(args_str)
+          classes = "voluble" <> (if explicit_classes !== nil, do: " #{explicit_classes}", else: "")
+          # Now just add classes to the existing elements (wrapping in a div messes up my grid)
+          contents
             |> Floki.parse_fragment!()
             |> then(fn parsed ->
               # Get top level nodes first
@@ -123,12 +118,10 @@ if Code.ensure_loaded?(Earmark) and Code.ensure_loaded?(NimblePublisher) do
           Regex.replace(helper_comment_pattern, inputstr, fn _whole_match, helper, args_str, contents ->
             # Logger.info("in convert_item: helper is #{helper}; args_str is #{args_str}")
             {explicit_classes, remaining_args} = extract_class_from_args(args_str)
-
-            remaining_args_list = remaining_args
-              |> String.split()
+            remaining_args_list =
+              remaining_args
+              |> split_args()
               |> Enum.reject(&(&1 == ""))
-              |> IO.inspect(label: "remaining_args_list")
-            # Logger.info("in convert_item, sending explicit_classes and remaining_args_list to arg_to_class as #{explicit_classes} and #{IO.inspect(remaining_args_list)}")
             {classes, args} = arg_to_class(explicit_classes, remaining_args_list)
           |> IO.inspect()
             convert_custom(helper, contents, earmark_opts, %{
@@ -167,6 +160,17 @@ if Code.ensure_loaded?(Earmark) and Code.ensure_loaded?(NimblePublisher) do
       {new_classes, new_args}
     else
       {classes, args}
+    end
+  end
+
+  defp split_args(args_str) do
+    args_str
+    |> String.trim()
+    |> case do
+      "" -> []
+      str ->
+        Regex.scan(~r/\w+="[^"]*"|\S+/, str)
+        |> Enum.map(&hd/1)
     end
   end
 

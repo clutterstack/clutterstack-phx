@@ -7,10 +7,31 @@ if Code.ensure_loaded?(Earmark) do
   # followed by Earmark.transform/2, but
   # on the other hand, these helper processors are pretty readable.
 
+
+  @doc """
+  A "callout" element with optional title. All args get concatenated into a single string for this purpose:
+
+  ```
+  <!-- callout This is my title -->
+  Stuff to say
+  <!-- /callout -->
+  """
   def convert_custom("callout", contents, earmark_opts, opts) do
     IO.puts("processing helper callout")
-    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    title = Enum.join(opts.args, " ")
+    processed_contents = Earmark.as_html!("### #{title} #{contents}", earmark_opts)
     classes = "callout" <> (if opts.extra_classes !== nil, do: " #{opts.extra_classes}", else: "")
+    """
+    <div class="#{classes}">
+      #{processed_contents}
+    </div>
+    """
+  end
+
+  def convert_custom("caption", contents, earmark_opts, opts) do
+    IO.puts("processing helper caption")
+    processed_contents = Earmark.as_html!(contents, earmark_opts)
+    classes = "caption" <> (if opts.extra_classes !== nil, do: " #{opts.extra_classes}", else: "")
     """
     <div class="#{classes}">
       #{processed_contents}
@@ -45,7 +66,47 @@ if Code.ensure_loaded?(Earmark) do
     """
   end
 
-  # A Claude adaptation to add extra classes and use arbitrary numbers to generate a class for the grid row span of the sidenote
+  # Embed a locally hosted video:
+  #
+  #    <!-- video  path="/images/posts/corro-map-1.webm" title="Corrosion propagation map" -->
+  #      World map with grey markers turning green in a random-looking pattern.
+  #    <!-- /video -->
+  #
+  # Text between the tags becomes the accessible description.
+
+  def convert_custom("video", contents, earmark_opts, opts) do
+    Logger.info("Processing video helper with opts #{inspect(opts)}")
+
+    {attr_map, positional_args} = parse_video_args(opts.args)
+    path = Map.get(attr_map, "path") || List.first(positional_args) || extract_path_from_contents(contents)
+
+    if is_nil(path) or path == "" do
+      Logger.warning("Video helper is missing a path argument; skipping render.")
+      ""
+    else
+      title = Map.get(attr_map, "title") || Map.get(attr_map, "aria-label") || build_default_title(path)
+      type = Map.get(attr_map, "type", guess_video_type(path))
+      preload = Map.get(attr_map, "preload", "metadata")
+      width = Map.get(attr_map, "width", "960")
+      classes = build_classes("video", opts.extra_classes)
+
+      description_html = build_description_html(contents, earmark_opts)
+      {aria_describedby_attr, description_markup} =
+        build_description_markup(description_html, Map.get(attr_map, "description-id"), path)
+
+      aria_label_attr = build_attribute("aria-label", title)
+
+      """
+      <video class="#{classes}" controls preload="#{preload}" width="#{width}" #{aria_label_attr} #{aria_describedby_attr}>
+        <source src="#{path}" type="#{type}">
+        Sorry, your browser can’t play this video.
+      </video>
+      #{description_markup}
+      """
+    end
+  end
+
+  # Claude adapted this to add extra classes and use arbitrary numbers to generate a class for the grid row span of the sidenote
   def convert_custom("sidenote", contents, earmark_opts, opts) do
     IO.puts("processing sidenote helper")
 
@@ -62,7 +123,7 @@ if Code.ensure_loaded?(Earmark) do
   end
 
   # <!-- details summary="Label" -->
-  # Contents to reveal
+  #   Contents to reveal
   # <!-- /details -->
   def convert_custom("details", contents, earmark_opts, opts) do
     IO.puts("processing details helper")
@@ -133,6 +194,110 @@ if Code.ensure_loaded?(Earmark) do
     IO.puts("No known helper found; passing through")
     # Earmark.as_html!(contents, earmark_opts)
     contents
+  end
+
+  defp parse_video_args(args) when is_list(args) do
+    {attrs, positional} =
+      Enum.reduce(args, {%{}, []}, fn raw_arg, {acc_map, positional} ->
+        case String.split(raw_arg, "=", parts: 2) do
+          [key, value] ->
+            cleaned = value |> String.trim() |> String.trim(~s("))
+            {Map.put(acc_map, key, cleaned), positional}
+
+          _ ->
+            {acc_map, [raw_arg | positional]}
+        end
+      end)
+
+    {attrs, Enum.reverse(positional)}
+  end
+
+  defp parse_video_args(_), do: {%{}, []}
+
+  defp extract_path_from_contents(contents) do
+    contents
+    |> String.trim()
+    |> String.split("\n", trim: true)
+    |> Enum.find(fn line -> line != "" end)
+  end
+
+  defp build_default_title(path) do
+    path
+    |> Path.basename()
+    |> String.replace("_", " ")
+    |> String.replace("-", " ")
+  end
+
+  defp guess_video_type(path) do
+    case Path.extname(path) do
+      ".webm" -> "video/webm"
+      ".mp4" -> "video/mp4"
+      ".ogg" -> "video/ogg"
+      ".mov" -> "video/quicktime"
+      _ -> "video/mp4"
+    end
+  end
+
+  defp build_classes(base, nil), do: base
+  defp build_classes(base, ""), do: base
+  defp build_classes(base, extra), do: base <> " " <> extra
+
+  defp build_description_html(contents, earmark_opts) do
+    contents
+    |> String.trim()
+    |> case do
+      "" -> ""
+      trimmed ->
+        trimmed
+        |> Earmark.as_html!(earmark_opts)
+        |> String.trim()
+    end
+  end
+
+  defp build_description_markup("", _requested_id, _path), do: {"", ""}
+
+  defp build_description_markup(html, requested_id, path) do
+    id = requested_id || generate_description_id(path)
+    {
+      build_attribute("aria-describedby", id),
+      """
+      <div id="#{id}" class="video-description hidden">
+        #{html}
+      </div>
+      """
+    }
+  end
+
+  defp generate_description_id(path) do
+    slug =
+      path
+      |> Path.basename()
+      |> String.downcase()
+      |> String.replace(~r/[^a-z0-9]+/u, "-")
+      |> String.trim("-")
+
+    hash = :erlang.phash2(path) |> Integer.to_string(36)
+
+    case slug do
+      "" -> "video-description-#{hash}"
+      _ -> "video-description-#{slug}-#{hash}"
+    end
+  end
+
+  defp build_attribute(_name, nil), do: ""
+  defp build_attribute(_name, ""), do: ""
+
+  defp build_attribute(name, value) do
+    escaped =
+      value
+      |> to_string()
+      |> String.replace("&", "&amp;")
+      |> String.replace("\"", "&quot;")
+      |> String.replace("'", "&#39;")
+      |> String.replace("<", "&lt;")
+      |> String.replace(">", "&gt;")
+
+    ~s( #{name}="#{escaped}")
   end
 
   end

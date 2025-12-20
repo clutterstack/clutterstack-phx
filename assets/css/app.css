@@ -12,7 +12,7 @@
 body {
     font-size: 110%;  
     @apply bg-amber-50/40 dark:bg-gray-700 
-    pl-20 pr-6 mx-auto 
+    px-6 md:pl-20 mx-auto 
     text-slate-900 dark:text-gray-200 leading-7 
     font-normal dark:font-extralight tracking-normal;
     /*  max-width: calc(42rem + 6rem + 360px);*/ /* content + gap + sidebar */
@@ -43,7 +43,13 @@ section.can-content {
     /* grid-column: 1/2; a default */
 }
 
-.can-content img {
+.can-content .caption {
+  @apply text-sm text-right
+  italic
+  -mt-8;
+}
+
+.can-content img, .can-content video {
     @apply mx-auto mb-2 block rounded-lg
     border border-orange-800;
 }
@@ -56,12 +62,16 @@ table {
     @apply rounded-lg border-slate-700 dark:border-slate-300 bg-gray-100 dark:bg-slate-800/60 mt-4 mb-8 px-4 pt-4;
 }
 
+.callout h3 {
+  @apply mt-2 mb-4 border-none text-lg md:text-[1.25rem] font-semibold dark:font-normal;
+}
+
 .can-content .card {
     @apply p-4 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 rounded-lg;
 }
 
 .can-content .sidenote {
-    @apply mx-6 my-6 md:my-0 pt-2 md:mx-0 
+    @apply mx-12 my-6 md:my-0 pt-2 md:mx-0 
     border-t border-t-orange-700 
     text-sm
     tracking-normal;
@@ -151,7 +161,8 @@ code.output {
 code.inline {
     @apply text-orange-800 dark:text-orange-300 
     text-[0.95em]/[1.2] mx-[0.1rem]
-    border-b border-dashed border-orange-800 
+    /* whitespace-nowrap */
+    /* border-b border-dashed border-orange-800  */
     bg-sky-50/40 dark:bg-gray-700;
     display: inline;
     -webkit-box-decoration-break: clone;

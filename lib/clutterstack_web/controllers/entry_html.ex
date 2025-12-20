@@ -57,22 +57,6 @@ defmodule ClutterstackWeb.EntryHTML do
       </div>
     </header>
     """
-
-  #   <div>
-  #     <div :if={@header_badge != []} >
-  #       <%= render_slot(@header_badge) %>
-  #     </div>
-  #     <h1>
-  #       <%= render_slot(@inner_block) %>
-  #     </h1>
-  #     <p :if={@subtitle != []} class="-mt-4 text-sm leading-6 text-zinc-600">
-  #       <%= render_slot(@subtitle) %>
-  #     </p>
-  #   </div>
-  #   <div class="flex-none"><%= render_slot(@actions) %></div>
-  # </header>
-
-
   end
 
 
@@ -83,16 +67,13 @@ defmodule ClutterstackWeb.EntryHTML do
   def particle_header(assigns) do
     ~H"""
     <header class="mb-6">
-      <div>
-        <.badge text={@page.section} />
-      </div>
       <h1 class="col-span-full"><%= @page.title %></h1>
-      <div class="-mt-4 text-sm leading-6 text-zinc-600 dark:text-300 flex justify-between">
+      <div class="-mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-300 flex justify-between">
         <div>
           <%= if @page.date do %>
             <%= @page.date %>
           <% end %>
-          in <.link navigate={~p"/particles"}>Particles</.link>
+          in {@page.section}
         </div>
         <.volubility_switcher :if={@has_terse_version} volubility={@volubility} path={@path} />
       </div>

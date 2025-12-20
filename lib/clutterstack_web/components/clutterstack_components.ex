@@ -45,7 +45,7 @@ defmodule ClutterstackWeb.ClutterstackComponents do
         <%= for item <- @items do %>
           <li class="mt-2 mb-2">
             <span class="text-sm text-zinc-600 dark:text-zinc-300"><%= item.date %></span>
-            <span class="text-base">
+            <span class="text-base mr-2">
               <.link href={"/" <> URI.decode(item.path)} >
               <%= item.title %></.link>
             </span>
@@ -79,7 +79,7 @@ defmodule ClutterstackWeb.ClutterstackComponents do
   attr :text, :string, default: nil
   def badge(assigns) do
     ~H"""
-    <span class="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-300 rounded-lg text-sm px-2">
+    <span class="bg-zinc-200 dark:bg-zinc-600 text-zinc-800 dark:text-zinc-100 rounded-xl text-xs px-2">
       <%= @text %>
     </span>
     """
