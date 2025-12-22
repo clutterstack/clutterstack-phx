@@ -5,7 +5,7 @@ defmodule Clutterstack.Entries do
 
   import Ecto.Query, warn: false
   alias Clutterstack.Repo
-  alias Clutterstack.Entries.{Entry, Redirect}
+  alias Clutterstack.Entries.{Entry, Redirect, Draft}
 
   @doc """
   Returns a skinny list of all the entries of
@@ -271,5 +271,80 @@ defmodule Clutterstack.Entries do
   """
   def change_entry(%Entry{} = entry, attrs \\ %{}) do
     Entry.changeset(entry, attrs)
+  end
+
+  #######################################################
+  ########### Draft-specific functions ##################
+  #######################################################
+
+  @doc """
+  Generates a deterministic private key from a path using SHA256 hash.
+  Returns a 16-character hex string.
+  """
+  def generate_private_key(path) do
+    :crypto.hash(:sha256, path)
+    |> Base.encode16(case: :lower)
+    |> String.slice(0..15)
+  end
+
+  @doc """
+  Upserts a draft entry. Creates if it doesn't exist, updates if it does.
+  """
+  def upsert_draft(attrs) do
+    case Repo.get_by(Draft, path: attrs.path) do
+      nil ->
+        %Draft{}
+        |> Draft.changeset(attrs)
+        |> Repo.insert()
+      draft ->
+        draft
+        |> Draft.changeset(attrs)
+        |> Repo.update()
+    end
+  end
+
+  @doc """
+  Gets a draft by path and private key. Returns nil if not found or key doesn't match.
+  """
+  def get_draft_by_path_and_key(path, key) do
+    case Repo.get_by(Draft, path: path, private_key: key) do
+      nil -> nil
+      draft ->
+        meta = Jason.decode!(draft.meta)
+        %{draft | meta: meta}
+    end
+  end
+
+  @doc """
+  Deletes a draft by path. Returns {:ok, nil} if draft doesn't exist.
+  """
+  def delete_draft_by_path(path) do
+    case Repo.get_by(Draft, path: path) do
+      nil -> {:ok, nil}
+      draft -> Repo.delete(draft)
+    end
+  end
+
+  @doc """
+  Deletes an entry by path. Returns {:ok, nil} if entry doesn't exist.
+  """
+  def delete_entry_by_path(path) do
+    case Repo.get_by(Entry, path: path) do
+      nil -> {:ok, nil}
+      entry -> Repo.delete(entry)
+    end
+  end
+
+  @doc """
+  Non-raising version of entry_by_path!/1 for controller logic.
+  Returns nil if not found.
+  """
+  def entry_by_path(path) do
+    case Repo.get_by(Entry, path: path) do
+      nil -> nil
+      entry ->
+        meta = Jason.decode!(entry.meta)
+        %{entry | meta: meta}
+    end
   end
 end

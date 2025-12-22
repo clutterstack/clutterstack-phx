@@ -60,8 +60,29 @@ defmodule Clutterstack do
     end
     json_meta = Jason.encode!(new_meta)
     new_map = entry_map |> Map.replace(:meta, json_meta)
-    stored_entry = Entries.upsert_entry(new_map)
-    {:ok, stored_entry}
+
+    # Check private flag and route to drafts or entries table
+    is_private = get_in(entry_map, [:meta, "private"]) == true
+
+    if is_private do
+      # Generate key and store in drafts table
+      private_key = Entries.generate_private_key(new_map.path)
+      draft_map = Map.put(new_map, :private_key, private_key)
+
+      # Remove from entries if it exists there
+      Entries.delete_entry_by_path(new_map.path)
+
+      # Upsert to drafts
+      stored_draft = Entries.upsert_draft(draft_map)
+      {:ok, stored_draft}
+    else
+      # Remove from drafts if it exists there
+      Entries.delete_draft_by_path(new_map.path)
+
+      # Upsert to entries (existing behaviour)
+      stored_entry = Entries.upsert_entry(new_map)
+      {:ok, stored_entry}
+    end
   end
 
   # These templates aren't used when populating the database

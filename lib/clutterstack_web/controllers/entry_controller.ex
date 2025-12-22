@@ -60,69 +60,107 @@ defmodule ClutterstackWeb.EntryController do
     render(conn, :particles, sections: section_list, all_items: particle_list, page_title: "Particles")
   end
 
-  def show_particle(conn, %{"theme" => theme, "page" => page, "volubility" => volubility_list}) do
+  def show_particle(conn, %{"theme" => theme, "page" => page_param, "volubility" => volubility_list} = params) do
     Logger.info("in show_particle, volubility_list: " <> to_string(volubility_list))
     volubility = case volubility_list do
       [] -> "voluble"
       [something] -> something # hopefully if it's not "voluble" it's "terse"
     end
-    path = Path.join(["particles", theme, page])
-    page = Entries.entry_by_path!(path)
-    # Logger.info("page meta: " <> IO.inspect(page.meta["keywords"]))
-    has_terse_version =
-    if page.meta["versions"] do
-      if ("terse" in page.meta["versions"]), do: true, else: false
-    else
-      false
-    end
-    Logger.info("has terse version? " <> to_string(has_terse_version))
-    
-    # Generate SEO meta tags
-    seo_meta_tags = SEO.build_meta_tags(page)
-    seo_meta_tags = Map.put(seo_meta_tags, :canonical_url, SEO.canonical_url(page, conn))
-    
-    render(conn, :particle, 
-      page: page, 
-      page_title: page.title, 
-      volubility: volubility, 
-      path: path, 
-      has_terse_version: has_terse_version,
-      seo_meta_tags: seo_meta_tags
-    )
-  end
+    path = Path.join(["particles", theme, page_param])
+    key = Map.get(params, "key")
 
-  def show_post(conn, %{"page" => page, "volubility" => volubility_list}) do
-    volubility = case volubility_list do
-      [] -> "voluble"
-      [something] -> something
+    # Check drafts first if key provided
+    page = if key do
+      Entries.get_draft_by_path_and_key(path, key)
+    else
+      nil
     end
-    path = Path.join("posts", page)
-    page = Entries.entry_by_path!(path)
-    has_terse_version =
+
+    # Fall back to entries if not found in drafts
+    page = page || Entries.entry_by_path(path)
+
+    # 404 if not found in either table
+    if is_nil(page) do
+      conn
+      |> put_status(:not_found)
+      |> put_view(ClutterstackWeb.ErrorHTML)
+      |> render(:"404")
+    else
+      # Logger.info("page meta: " <> IO.inspect(page.meta["keywords"]))
+      has_terse_version =
       if page.meta["versions"] do
         if ("terse" in page.meta["versions"]), do: true, else: false
       else
         false
       end
       Logger.info("has terse version? " <> to_string(has_terse_version))
-    
-    # Get adjacent posts for navigation
-    {prev_post, next_post} = Entries.get_adjacent_posts(path)
-    
-    # Generate SEO meta tags
-    seo_meta_tags = SEO.build_meta_tags(page)
-    seo_meta_tags = Map.put(seo_meta_tags, :canonical_url, SEO.canonical_url(page, conn))
-    
-    render(conn, :post, 
-      page: page, 
-      page_title: page.title, 
-      volubility: volubility, 
-      path: path, 
-      has_terse_version: has_terse_version,
-      prev_post: prev_post,
-      next_post: next_post,
-      seo_meta_tags: seo_meta_tags
-    )
+
+      # Generate SEO meta tags
+      seo_meta_tags = SEO.build_meta_tags(page)
+      seo_meta_tags = Map.put(seo_meta_tags, :canonical_url, SEO.canonical_url(page, conn))
+
+      render(conn, :particle,
+        page: page,
+        page_title: page.title,
+        volubility: volubility,
+        path: path,
+        has_terse_version: has_terse_version,
+        seo_meta_tags: seo_meta_tags
+      )
+    end
+  end
+
+  def show_post(conn, %{"page" => page_param, "volubility" => volubility_list} = params) do
+    volubility = case volubility_list do
+      [] -> "voluble"
+      [something] -> something
+    end
+    path = Path.join("posts", page_param)
+    key = Map.get(params, "key")
+
+    # Check drafts first if key provided
+    page = if key do
+      Entries.get_draft_by_path_and_key(path, key)
+    else
+      nil
+    end
+
+    # Fall back to entries if not found in drafts
+    page = page || Entries.entry_by_path(path)
+
+    # 404 if not found in either table
+    if is_nil(page) do
+      conn
+      |> put_status(:not_found)
+      |> put_view(ClutterstackWeb.ErrorHTML)
+      |> render(:"404")
+    else
+      has_terse_version =
+        if page.meta["versions"] do
+          if ("terse" in page.meta["versions"]), do: true, else: false
+        else
+          false
+        end
+      Logger.info("has terse version? " <> to_string(has_terse_version))
+
+      # Get adjacent posts for navigation
+      {prev_post, next_post} = Entries.get_adjacent_posts(path)
+
+      # Generate SEO meta tags
+      seo_meta_tags = SEO.build_meta_tags(page)
+      seo_meta_tags = Map.put(seo_meta_tags, :canonical_url, SEO.canonical_url(page, conn))
+
+      render(conn, :post,
+        page: page,
+        page_title: page.title,
+        volubility: volubility,
+        path: path,
+        has_terse_version: has_terse_version,
+        prev_post: prev_post,
+        next_post: next_post,
+        seo_meta_tags: seo_meta_tags
+      )
+    end
   end
 
   ##### Generated actions for generated CRUD resources #####
