@@ -87,9 +87,20 @@ defmodule ClutterstackWeb.SEO do
   defp og_type_for_kind(_), do: "website"
 
   defp strip_html_tags(html_string) do
-    html_string
-    |> String.replace(~r/<[^>]*>/, "")
-    |> String.replace(~r/\s+/, " ")
+    case Floki.parse_fragment(html_string) do
+      {:ok, parsed} ->
+        parsed
+        |> Floki.text(sep: " ")
+        |> String.replace(~r/\s+/, " ")
+        |> String.trim()
+
+      # Fallback if parsing fails
+      {:error, _} ->
+        html_string
+        |> String.replace(~r/<[^>]*>/, "")
+        |> String.replace(~r/\s+/, " ")
+        |> String.trim()
+    end
   end
 
   defp truncate_text(text, max_length) do
