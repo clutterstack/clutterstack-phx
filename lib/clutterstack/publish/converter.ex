@@ -114,7 +114,7 @@ if Code.ensure_loaded?(Earmark) and Code.ensure_loaded?(NimblePublisher) do
     # Simpler pattern that ensures closing tag matches opening tag
     helper_comment_pattern = ~r/<!-- (?!voluble\b)(\w+)(.*?) -->([\s\S]*?)<!-- \/\1 -->/
     case Regex.scan(helper_comment_pattern, inputstr) do
-      [[_whole_match, _helper, _args_str, contents]] ->
+      [[_whole_match, _helper, _args_str, _contents]] ->
           Regex.replace(helper_comment_pattern, inputstr, fn _whole_match, helper, args_str, contents ->
             # Logger.info("in convert_item: helper is #{helper}; args_str is #{args_str}")
             {explicit_classes, remaining_args} = extract_class_from_args(args_str)
