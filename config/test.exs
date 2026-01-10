@@ -18,7 +18,9 @@ config :clutterstack, Clutterstack.Repo,
 config :clutterstack, ClutterstackWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "D04LKcO0pAm8LbTv+v9/MTMmgR/dgk3QpuSeFOHIabXb1F15qd9XSs7FcQ4ooX1H",
-  server: false
+  server: false,
+  canonical_host: "example.com",
+  redirect_from_hosts: []
 
 # Print only warnings and errors during test
 config :logger, level: :warning
