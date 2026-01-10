@@ -22,6 +22,8 @@ config :clutterstack, ClutterstackWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "M3fIXUQ4A/tLRz0UXTe2IC74S8SuGb+c3aJdy0dvjVeCqiDPz3vy4bRkPmMP/8m1",
+  canonical_host: "localhost",
+  redirect_from_hosts: [],
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:clutterstack, ~w(--sourcemap=inline --watch)]},
     esbuild: {Esbuild, :install_and_run, [:rando, ~w(--sourcemap=inline --watch)]},

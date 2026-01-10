@@ -59,7 +59,9 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
-    secret_key_base: secret_key_base
+    secret_key_base: secret_key_base,
+    canonical_host: "clutterstack.com",
+    redirect_from_hosts: ["clutterstack.fly.dev"]
 
   # ## SSL Support
   #
