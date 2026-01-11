@@ -1,18 +1,17 @@
 defmodule ClutterstackWeb.RedirectPlug do
   import Plug.Conn
 
-  def init(_opts) do
-    endpoint = Application.get_env(:clutterstack, ClutterstackWeb.Endpoint)
-    %{
-      canonical_host: Keyword.get(endpoint, :canonical_host, "clutterstack.com"),
-      redirect_from_hosts: Keyword.get(endpoint, :redirect_from_hosts, [])
-    }
-  end
+  def init(opts), do: opts
 
-  def call(conn, opts) do
+  def call(conn, _opts) do
+    # Look up config at runtime (not compile time)
+    endpoint_config = Application.get_env(:clutterstack, ClutterstackWeb.Endpoint, [])
+    canonical_host = Keyword.get(endpoint_config, :canonical_host, "clutterstack.com")
+    redirect_from_hosts = Keyword.get(endpoint_config, :redirect_from_hosts, [])
+
     cond do
-      conn.host in opts.redirect_from_hosts ->
-        redirect_to_canonical(conn, opts.canonical_host)
+      conn.host in redirect_from_hosts ->
+        redirect_to_canonical(conn, canonical_host)
 
       true ->
         # Path-based redirect logic
