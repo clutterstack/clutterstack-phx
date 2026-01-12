@@ -61,7 +61,7 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base,
     canonical_host: "clutterstack.com",
-    redirect_from_hosts: ["clutterstack.fly.dev"]
+    redirect_from_hosts: ["clutterstack.fly.dev", "www.clutterstack.com"]
 
   # ## SSL Support
   #
