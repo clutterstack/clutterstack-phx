@@ -20,10 +20,16 @@ defmodule ClutterstackWeb.EntryController do
             kind: "post"
           },
           page_title: "Home",
-          items: latest_all
+          items: latest_all,
+          seo_meta_tags: default_seo_meta_tags(conn, "Home")
         )
       page ->
-        render(conn, :home, page: page, page_title: "Home", items: latest_all)
+        render(conn, :home,
+          page: page,
+          page_title: "Home",
+          items: latest_all,
+          seo_meta_tags: default_seo_meta_tags(conn, "Home")
+        )
     end
   end
 
@@ -42,22 +48,37 @@ defmodule ClutterstackWeb.EntryController do
             kind: "post"
           },
           page_title: "Home",
-          items: latest_all
+          items: latest_all,
+          seo_meta_tags: default_seo_meta_tags(conn, "Home")
         )
       page ->
-        render(conn, :home, page: page, page_title: "Home", items: latest_all)
+        render(conn, :home,
+          page: page,
+          page_title: "Home",
+          items: latest_all,
+          seo_meta_tags: default_seo_meta_tags(conn, "Home")
+        )
     end
   end
 
   def posts(conn, _params) do
     post_list = Entries.list_by_kind("post") |> Enum.sort_by(&(&1.date), :desc) # |> IO.inspect(label: "list by kind: ")
-    render(conn, :entry_links, items: post_list, page_title: "Posts")
+    render(conn, :entry_links,
+      items: post_list,
+      page_title: "Posts",
+      seo_meta_tags: default_seo_meta_tags(conn, "Posts")
+    )
   end
 
   def particles(conn, _params) do
     section_list = Entries.list_sections("particle")
     particle_list = Entries.list_by_kind("particle") |> Enum.sort_by(&(&1.date), :desc)
-    render(conn, :particles, sections: section_list, all_items: particle_list, page_title: "Particles")
+    render(conn, :particles,
+      sections: section_list,
+      all_items: particle_list,
+      page_title: "Particles",
+      seo_meta_tags: default_seo_meta_tags(conn, "Particles")
+    )
   end
 
   def show_particle(conn, %{"theme" => theme, "page" => page_param, "volubility" => volubility_list} = params) do
@@ -219,5 +240,21 @@ defmodule ClutterstackWeb.EntryController do
     conn
     |> put_flash(:info, "Entry deleted successfully.")
     |> redirect(to: ~p"/entries")
+  end
+
+  defp default_seo_meta_tags(conn, title, description \\ nil) do
+    canonical_url = ClutterstackWeb.Endpoint.url() <> conn.request_path
+    final_description = description || "#{title} - Clutterstack"
+
+    %{
+      description: final_description,
+      og_title: title,
+      og_description: final_description,
+      og_type: "website",
+      og_tags: [],
+      twitter_title: title,
+      twitter_description: final_description,
+      canonical_url: canonical_url
+    }
   end
 end
