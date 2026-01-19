@@ -67,7 +67,7 @@ defmodule ClutterstackWeb.SEO do
   Generates canonical URL for an entry.
   """
   def canonical_url(entry, _conn) do
-    base_url = ClutterstackWeb.Endpoint.url()
+    base_url = canonical_base_url()
     path = case entry.kind do
       "post" -> "/posts/#{Path.basename(entry.path)}"
       "particle" -> 
@@ -78,6 +78,21 @@ defmodule ClutterstackWeb.SEO do
       _ -> "/#{entry.path}"
     end
     "#{base_url}#{path}"
+  end
+
+  def canonical_base_url do
+    endpoint_config = Application.get_env(:clutterstack, ClutterstackWeb.Endpoint, [])
+    canonical_host = Keyword.get(endpoint_config, :canonical_host, "clutterstack.com")
+    url_config = Keyword.get(endpoint_config, :url, [])
+    scheme = Keyword.get(url_config, :scheme, "https")
+    port = Keyword.get(url_config, :port)
+    base = "#{scheme}://#{canonical_host}"
+
+    if is_nil(port) or port in [80, 443] do
+      base
+    else
+      "#{base}:#{port}"
+    end
   end
 
   # Private helper functions

@@ -12,16 +12,16 @@ defmodule Clutterstack.Sitemapper do
         path: "priv/static/sitemaps/"
         ],
       gzip: false,
-      sitemap_url: "https://clutterstack.com/"
+      sitemap_url: "https://clutterstack.com"
     ]
 
     static_routes = [
       %Sitemapper.URL{
-        loc: "https://clutterstack.com/particles/",
+        loc: "https://clutterstack.com/particles",
         changefreq: :weekly
       },
       %Sitemapper.URL{
-        loc: "https://clutterstack.com/posts/",
+        loc: "https://clutterstack.com/posts",
         changefreq: :weekly
       }
     ]

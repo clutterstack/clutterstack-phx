@@ -5,7 +5,7 @@ defmodule Clutterstack.Atomfeed do
 
   def generate_atom_feed() do
     author ={:author, nil, [{:name, nil, "Chris Nicoll"}]}
-    uri = "https://clutterstack.com/"
+    uri = "https://clutterstack.com"
     updated = current_time_iso8601()
     entries =  Entries.latest_entries(10)
       |> Enum.sort_by(&(&1.date), :desc)
@@ -17,7 +17,7 @@ defmodule Clutterstack.Atomfeed do
   end
 
   defp feedentrytuple(title, path, date, content) do
-    uri = "https://clutterstack.com/#{path}/"
+    uri = "https://clutterstack.com/#{path}"
     updated = convert_date(date)
 
     # Remove excess whitespace from HTML content

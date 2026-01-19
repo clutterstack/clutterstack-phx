@@ -243,7 +243,7 @@ defmodule ClutterstackWeb.EntryController do
   end
 
   defp default_seo_meta_tags(conn, title, description \\ nil) do
-    canonical_url = ClutterstackWeb.Endpoint.url() <> conn.request_path
+    canonical_url = SEO.canonical_base_url() <> conn.request_path
     final_description = description || "#{title} - Clutterstack"
 
     %{
