@@ -33,6 +33,12 @@ defmodule ClutterstackWeb.Endpoint do
     from: {:clutterstack, "priv/static/sitemaps/"},
     gzip: true
 
+
+  # Add Tidewave
+  if Code.ensure_loaded?(Tidewave) do
+    plug Tidewave
+  end
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do

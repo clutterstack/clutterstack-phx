@@ -68,7 +68,8 @@ defmodule Clutterstack.MixProject do
       {:sitemapper, "~> 0.8"},
       {:xml_builder, "~> 2.1"},
       {:file_system, "~> 1.0", only: :dev},
-      {:plausible_proxy, git: "https://github.com/clutterstack/plausible_proxy", branch: "update"}
+      {:plausible_proxy, git: "https://github.com/clutterstack/plausible_proxy", branch: "update"},
+      {:tidewave, "~> 0.5.4", only: :dev}
       # {:plausible_proxy, path: "/Users/chris/Downloads/SynologyDrive/Projects/2025-08-dockyard_plausible_proxy/plausible_proxy"}
     ]
   end

@@ -81,4 +81,94 @@ defmodule ClutterstackWeb.EntryControllerTest do
     entry = entry_fixture()
     %{entry: entry}
   end
+
+  describe "show_post with various URL patterns" do
+    setup do
+      post = entry_fixture(%{
+        kind: "post",
+        path: "posts/2025-01-test-post",
+        title: "Test Post",
+        body: "<p>Test content</p>",
+        date: "2025-01-01",
+        section: "",
+        meta: Jason.encode!(%{"versions" => ["terse"]})
+      })
+      %{post: post}
+    end
+
+    test "handles post path without volubility parameter (default voluble)", %{conn: conn, post: _post} do
+      conn = get(conn, "/posts/2025-01-test-post")
+      assert html_response(conn, 200) =~ "Test Post"
+    end
+
+    test "handles post path with explicit terse", %{conn: conn, post: _post} do
+      conn = get(conn, "/posts/2025-01-test-post/terse")
+      assert html_response(conn, 200) =~ "Test Post"
+    end
+
+    test "handles post path with explicit voluble", %{conn: conn, post: _post} do
+      conn = get(conn, "/posts/2025-01-test-post/voluble")
+      assert html_response(conn, 200) =~ "Test Post"
+    end
+
+    test "handles malformed post path with multiple segments after page (bug fix test)", %{conn: conn} do
+      # This was causing CaseClauseError before the fix
+      # The path matches as page="particles" and volubility=["elixir", "2025-01-29-asdf-switch-erlang"]
+      conn = get(conn, "/posts/particles/elixir/2025-01-29-asdf-switch-erlang")
+      # Should return 404 since this path doesn't exist, not crash
+      assert html_response(conn, 404)
+    end
+
+    test "returns 404 for non-existent post", %{conn: conn} do
+      conn = get(conn, "/posts/non-existent-post")
+      assert html_response(conn, 404)
+    end
+  end
+
+  describe "show_particle with various URL patterns" do
+    setup do
+      particle = entry_fixture(%{
+        kind: "particle",
+        path: "particles/elixir/2025-01-test-particle",
+        title: "Test Particle",
+        body: "<p>Test particle content</p>",
+        date: "2025-01-01",
+        section: "elixir",
+        meta: Jason.encode!(%{"versions" => ["terse"]})
+      })
+      %{particle: particle}
+    end
+
+    test "handles particle path without volubility parameter (default voluble)", %{conn: conn, particle: _particle} do
+      conn = get(conn, "/particles/elixir/2025-01-test-particle")
+      assert html_response(conn, 200) =~ "Test Particle"
+    end
+
+    test "handles particle path with explicit terse", %{conn: conn, particle: _particle} do
+      conn = get(conn, "/particles/elixir/2025-01-test-particle/terse")
+      assert html_response(conn, 200) =~ "Test Particle"
+    end
+
+    test "handles particle path with explicit voluble", %{conn: conn, particle: _particle} do
+      conn = get(conn, "/particles/elixir/2025-01-test-particle/voluble")
+      assert html_response(conn, 200) =~ "Test Particle"
+    end
+
+    test "handles malformed particle path with multiple segments", %{conn: conn} do
+      # Test that multi-segment volubility lists are handled gracefully
+      conn = get(conn, "/particles/elixir/2025-01-test-particle/something/else")
+      # Should still work, just using the first segment as volubility
+      assert html_response(conn, 200) =~ "Test Particle"
+    end
+
+    test "returns 404 for non-existent particle", %{conn: conn} do
+      conn = get(conn, "/particles/elixir/non-existent-particle")
+      assert html_response(conn, 404)
+    end
+
+    test "returns 404 for non-existent theme", %{conn: conn} do
+      conn = get(conn, "/particles/nonexistent/some-particle")
+      assert html_response(conn, 404)
+    end
+  end
 end

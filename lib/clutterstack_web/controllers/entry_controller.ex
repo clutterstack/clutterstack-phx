@@ -81,11 +81,12 @@ defmodule ClutterstackWeb.EntryController do
     )
   end
 
-  def show_particle(conn, %{"theme" => theme, "page" => page_param, "volubility" => volubility_list} = params) do
-    Logger.info("in show_particle, volubility_list: " <> to_string(volubility_list))
+  def show_particle(conn, %{"theme" => theme, "page" => page_param} = params) do
+    volubility_list = Map.get(params, "volubility", [])
+    Logger.info("in show_particle, volubility_list: " <> inspect(volubility_list))
     volubility = case volubility_list do
       [] -> "voluble"
-      [something] -> something # hopefully if it's not "voluble" it's "terse"
+      [something | _rest] -> something # hopefully if it's not "voluble" it's "terse"
     end
     path = Path.join(["particles", theme, page_param])
     key = Map.get(params, "key")
@@ -131,10 +132,11 @@ defmodule ClutterstackWeb.EntryController do
     end
   end
 
-  def show_post(conn, %{"page" => page_param, "volubility" => volubility_list} = params) do
+  def show_post(conn, %{"page" => page_param} = params) do
+    volubility_list = Map.get(params, "volubility", [])
     volubility = case volubility_list do
       [] -> "voluble"
-      [something] -> something
+      [something | _rest] -> something
     end
     path = Path.join("posts", page_param)
     key = Map.get(params, "key")
@@ -243,7 +245,8 @@ defmodule ClutterstackWeb.EntryController do
   end
 
   defp default_seo_meta_tags(conn, title, description \\ nil) do
-    canonical_url = SEO.canonical_base_url() <> conn.request_path
+    canonical_path = normalize_request_path(conn.request_path)
+    canonical_url = SEO.canonical_base_url() <> canonical_path
     final_description = description || "#{title} - Clutterstack"
 
     %{
@@ -256,5 +259,12 @@ defmodule ClutterstackWeb.EntryController do
       twitter_description: final_description,
       canonical_url: canonical_url
     }
+  end
+
+  defp normalize_request_path(path) do
+    case path do
+      "/" -> "/"
+      _ -> String.trim_trailing(path, "/")
+    end
   end
 end
